@@ -1,4 +1,4 @@
-# ecologger
+# cadalogger
 arduino-inspired boards to support data logging in ecology and environmental science
 
 ## Preamble
