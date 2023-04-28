@@ -23,3 +23,13 @@ This project aims to generate easy-to-use open-source hardware and software for 
 - managing power to sensors
 - power budget calculations
 - example of power provision for different field scenarios
+
+
+## Examples
+
+*sunshine.ino* A simple data logger example demonstrating several power-saving tricks including:
+
+- deep sleep
+- depowering the SD card
+- powering sensor circuits with a MCU pin
+- saving data from multiple data reads between bulk writes to the SD card
