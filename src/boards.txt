@@ -1,0 +1,126 @@
+cadalogger.name=cadalogger
+cadalogger.build.core=arduino:arduino
+4808.upload.tool=avrdude
+4808.upload.maximum_data_size=6144
+4808.upload.speed=115200
+4808.bootloader.tool=avrdude
+4808.build.core=coreX-corefiles
+4808.build.board=AVR_ATmega4808
+4808.build.mcu=atmega4808
+4808.build.extra_flags={build.oscillator}
+
+# Fuses we don't need to modify in the tools menu
+cadalogger.bootloader.WDTCFG=0x00
+cadalogger.bootloader.TCD0CFG=0x00
+cadalogger.bootloader.SYSCFG1=0x06
+cadalogger.bootloader.APPEND=0x00
+cadalogger.bootloader.LOCKBIT=0xC5
+
+# menu item in megacoreX, not here
+4808.pinout.32pin_standard=32 pin standard
+4808.pinout.32pin_standard.build.variant=32pin-standard
+
+# EEPROM
+cadalogger.menu.eeprom.keep=EEPROM retained
+cadalogger.menu.eeprom.keep.bootloader.eesave_bit=1
+cadalogger.menu.eeprom.erase=EEPROM not retained
+cadalogger.menu.eeprom.erase.bootloader.eesave_bit=0
+
+# Reset pin --  menu item in megacoreX but not here
+cadalogger.resetpin.reset=Reset
+cadalogger.resetpin.reset.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
+
+# Brown out detection
+cadalogger.menu.BOD.2v6=BOD 2.6V
+cadalogger.menu.BOD.2v6.bootloader.BODCFG=0x54
+cadalogger.menu.BOD.4v3=BOD 4.3V
+cadalogger.menu.BOD.4v3.bootloader.BODCFG=0xF4
+cadalogger.menu.BOD.4v0=BOD 4.0V
+cadalogger.menu.BOD.4v0.bootloader.BODCFG=0xD4
+cadalogger.menu.BOD.3v7=BOD 3.7V
+cadalogger.menu.BOD.3v7.bootloader.BODCFG=0xB4
+cadalogger.menu.BOD.3v3=BOD 3.3V
+cadalogger.menu.BOD.3v3.bootloader.BODCFG=0x94
+cadalogger.menu.BOD.2v9=BOD 2.9V
+cadalogger.menu.BOD.2v9.bootloader.BODCFG=0x74
+cadalogger.menu.BOD.2v1=BOD 2.1V
+cadalogger.menu.BOD.2v1.bootloader.BODCFG=0x34
+cadalogger.menu.BOD.1v8=BOD 1.8V
+cadalogger.menu.BOD.1v8.bootloader.BODCFG=0x14
+cadalogger.menu.BOD.disabled=BOD disabled
+cadalogger.menu.BOD.disabled.bootloader.BODCFG=0x00
+
+# Clock -  menu items retained for internal clock options only
+cadalogger.menu.clock.internal_16MHz=Internal 16 MHz
+cadalogger.menu.clock.internal_16MHz.upload.speed=115200
+cadalogger.menu.clock.internal_16MHz.bootloader.OSCCFG=0x01
+cadalogger.menu.clock.internal_16MHz.build.oscillator=
+cadalogger.menu.clock.internal_16MHz.build.f_cpu=16000000L
+
+cadalogger.menu.clock.internal_20MHz=Internal 20 MHz
+cadalogger.menu.clock.internal_20MHz.upload.speed=115200
+cadalogger.menu.clock.internal_20MHz.bootloader.OSCCFG=0x02
+cadalogger.menu.clock.internal_20MHz.build.oscillator=
+cadalogger.menu.clock.internal_20MHz.build.f_cpu=20000000L
+
+cadalogger.menu.clock.internal_10MHz=Internal 10 MHz
+cadalogger.menu.clock.internal_10MHz.upload.speed=115200
+cadalogger.menu.clock.internal_10MHz.bootloader.OSCCFG=0x02
+cadalogger.menu.clock.internal_10MHz.build.oscillator=
+cadalogger.menu.clock.internal_10MHz.build.f_cpu=10000000L
+
+cadalogger.menu.clock.internal_8MHz=Internal 8 MHz
+cadalogger.menu.clock.internal_8MHz.upload.speed=115200
+cadalogger.menu.clock.internal_8MHz.bootloader.OSCCFG=0x01
+cadalogger.menu.clock.internal_8MHz.build.oscillator=
+cadalogger.menu.clock.internal_8MHz.build.f_cpu=8000000L
+
+cadalogger.menu.clock.internal_5MHz=Internal 5 MHz
+cadalogger.menu.clock.internal_5MHz.upload.speed=115200
+cadalogger.menu.clock.internal_5MHz.bootloader.OSCCFG=0x02
+cadalogger.menu.clock.internal_5MHz.build.oscillator=
+cadalogger.menu.clock.internal_5MHz.build.f_cpu=5000000L
+
+cadalogger.menu.clock.internal_4MHz=Internal 4 MHz
+cadalogger.menu.clock.internal_4MHz.upload.speed=115200
+cadalogger.menu.clock.internal_4MHz.bootloader.OSCCFG=0x01
+cadalogger.menu.clock.internal_4MHz.build.oscillator=
+cadalogger.menu.clock.internal_4MHz.build.f_cpu=4000000L
+
+cadalogger.menu.clock.internal_2MHz=Internal 2 MHz
+cadalogger.menu.clock.internal_2MHz.upload.speed=115200
+cadalogger.menu.clock.internal_2MHz.bootloader.OSCCFG=0x01
+cadalogger.menu.clock.internal_2MHz.build.oscillator=
+cadalogger.menu.clock.internal_2MHz.build.f_cpu=2000000L
+
+cadalogger.menu.clock.internal_1MHz=Internal 1 MHz
+cadalogger.menu.clock.internal_1MHz.upload.speed=115200
+cadalogger.menu.clock.internal_1MHz.bootloader.OSCCFG=0x01
+cadalogger.menu.clock.internal_1MHz.build.oscillator=
+cadalogger.menu.clock.internal_1MHz.build.f_cpu=1000000L
+
+
+
+# Bootloader -  subset of options from megacoreX
+cadalogger.menu.bootloader.no_bootloader=No bootloader
+cadalogger.menu.bootloader.no_bootloader.upload.maximum_size=49152
+cadalogger.menu.bootloader.no_bootloader.upload.extra_params=
+cadalogger.menu.bootloader.no_bootloader.build.text_section_start=.text=0x0
+cadalogger.menu.bootloader.no_bootloader.build.export_merged_output=false
+cadalogger.menu.bootloader.no_bootloader.bootloader.file=empty/empty.hex
+cadalogger.menu.bootloader.no_bootloader.bootloader.BOOTEND=0x00
+
+cadalogger.menu.bootloader.uart2_default=Optiboot (UART2 default pins)
+cadalogger.menu.bootloader.uart2_default.upload.maximum_size=48640
+cadalogger.menu.bootloader.uart2_default.upload.protocol=arduino
+cadalogger.menu.bootloader.uart2_default.upload.port=UART2_DEF
+cadalogger.menu.bootloader.uart2_default.upload.extra_params=
+cadalogger.menu.bootloader.uart2_default.build.text_section_start=.text=0x200
+cadalogger.menu.bootloader.uart2_default.build.export_merged_output=true
+cadalogger.menu.bootloader.uart2_default.bootloader.file=optiboot/bootloaders/mega0/{upload.speed}/Optiboot_mega0_{upload.port}_{upload.speed}_A7.hex
+cadalogger.menu.bootloader.uart2_default.bootloader.BOOTEND=0x02
+cadalogger.menu.bootloader.uart2_default.bootloader.SYSCFG0=0b1100100{bootloader.eesave_bit}
+
+
+
+
