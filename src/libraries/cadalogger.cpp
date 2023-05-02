@@ -131,6 +131,7 @@ void cadalogger::_update_time_DS3231() {
   byte cadalogger::time[ss] = cadalogger::_BcdToDec(Wire.read()); // sec
   byte cadalogger::time[mi] = cadalogger::_BcdToDec(Wire.read()); // min
   byte cadalogger::time[hh] = cadalogger::_BcdToDec(Wire.read()); // hour
+  byte weekday = Wire.read();
   byte cadalogger::time[dd] = cadalogger::_BcdToDec(Wire.read()); // dayOfMonth
   byte cadalogger::time[mo] = cadalogger::_BcdToDec(Wire.read()); // month
   byte cadalogger::time[yy] = cadalogger::_BcdToDec(Wire.read()); // year
