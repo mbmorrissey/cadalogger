@@ -30,6 +30,7 @@ void cadalogger::initialise(){
     _RTC_int_pin = 23;
 
     Wire.begin();
+    delay(100);                       // probably unnecessary
     cadalogger::_prepare_rtc();
     for(byte i=0; i<25; i++){
       pinMode(i,INPUT_PULLUP);
@@ -163,7 +164,7 @@ void cadalogger::_prepare_rtc_RV3032(){
   // enable backup battery power switchover
   Wire.beginTransmission(rtc_RV3032); 
   Wire.write(0xC0);
-  Wire.write(0b00010000);
+  Wire.write(0b00100000);
   Wire.endTransmission();
 
   // transfer RAM mirror to EEPROM
@@ -177,7 +178,18 @@ void cadalogger::_prepare_rtc_RV3032(){
   Wire.write(0x10);
   Wire.write(0b00000000);
   Wire.endTransmission();
-  
+ 
+ Serial.begin(9600);
+ delay(100);
+ Serial.println("test");
+  Wire.beginTransmission(rtc_RV3032);  
+  Wire.write(0xC0);  // pointer
+  Wire.endTransmission();
+  Wire.requestFrom(rtc_RV3032,1);
+  byte t = Wire.read();
+  Wire.endTransmission();  
+  Serial.println(t,BIN);
+  delay(100);
 
   // below sets up the 10 second heartbeat
   
@@ -289,16 +301,24 @@ void cadalogger::power_up_sd(){
 
 void cadalogger::go_to_sleep_until_RTC_wake(){
 
-  pinMode(_RTC_int_pin,INPUT);
+  pinMode(_RTC_int_pin,INPUT_PULLUP);
+  
+//  pinConfigure(_RTC_int_pin, PIN_DIR_INPUT, PIN_INT_FALL);
+
+//  pinConfigure(_RTC_int_pin,PIN_ISC_LEVEL);
+//  pinConfigure(_RTC_int_pin,PIN_DIR_IN, PIN_PULLUP_ON);
   cli();
   set_sleep_mode(SLEEP_MODE_STANDBY);  //  set_sleep_mode(SLEEP_MODE_PWR_DOWN);
   sleep_enable();
-  attachInterrupt(digitalPinToInterrupt(_RTC_int_pin), cadalogger::_RTC_interrupt, LOW);
+//  attachInterrupt(digitalPinToInterrupt(_RTC_int_pin), cadalogger::_RTC_interrupt, LOW);
+  attachInterrupt(digitalPinToInterrupt(_RTC_int_pin), cadalogger::_RTC_interrupt, CHANGE);
   sei();
   sleep_cpu(); 
   // sleeps here until the interrupt V falls
   sleep_disable();
+//  detachInterrupt(digitalPinToInterrupt(_RTC_int_pin));
   detachInterrupt(digitalPinToInterrupt(_RTC_int_pin));
+//  pinConfigure(_RTC_int_pin,PIN_ISC_DISABLE);
 }
 
 // possibly not needed at all now? - RTC's low signal is automatically cleared, I think
