@@ -191,16 +191,6 @@ void cadalogger::_prepare_rtc_RV3032() {
 
   // see manual page 72 for setting of configuration registers in EEPROM via RAM mirrors
 
-  //  Serial.begin(9600);
-  //  Wire.beginTransmission(rtc_RV3032);
-  //  Wire.write(0xC0);  // pointer
-  //  Wire.endTransmission();
-  //  Wire.requestFrom(rtc_RV3032,1);
-  //  byte t = Wire.read();
-  //  Wire.endTransmission();
-  //  Serial.println(t,BIN);
-  //  delay(100);
-
   // disable refresh
   Wire.beginTransmission(rtc_RV3032);
   Wire.write(0x10);
@@ -224,23 +214,8 @@ void cadalogger::_prepare_rtc_RV3032() {
   Wire.write(0x10);
   Wire.write(0b00000000);
   Wire.endTransmission();
-<<<<<<< HEAD:examples/sunshine/cadalogger.cpp
- 
- Serial.begin(9600);
- delay(100);
- Serial.println("test");
-  Wire.beginTransmission(rtc_RV3032);  
-  Wire.write(0xC0);  // pointer
-  Wire.endTransmission();
-  Wire.requestFrom(rtc_RV3032,1);
-  byte t = Wire.read();
-  Wire.endTransmission();  
-  Serial.println(t,BIN);
-  delay(100);
-=======
 
->>>>>>> 03ed3d71a03253df96dd04b566c7fee26c8dbd59:src/libraries/cadalogger.cpp
-
+	
   // below sets up the 10 second heartbeat
 
   // set 0Bh register (standard binary format) lower 8 bits; CV-3032 manual page 21: 0001010b (10 seconds)
@@ -398,39 +373,18 @@ void cadalogger::power_up_sd() {
 }
 
 void cadalogger::go_to_sleep_until_RTC_wake() {
+	
   if (_board_version == 0) {
-
-<<<<<<< HEAD:examples/sunshine/cadalogger.cpp
-  pinMode(_RTC_int_pin,INPUT_PULLUP);
-  
-//  pinConfigure(_RTC_int_pin, PIN_DIR_INPUT, PIN_INT_FALL);
-
-//  pinConfigure(_RTC_int_pin,PIN_ISC_LEVEL);
-//  pinConfigure(_RTC_int_pin,PIN_DIR_IN, PIN_PULLUP_ON);
-  cli();
-  set_sleep_mode(SLEEP_MODE_STANDBY);  //  set_sleep_mode(SLEEP_MODE_PWR_DOWN);
-  sleep_enable();
-//  attachInterrupt(digitalPinToInterrupt(_RTC_int_pin), cadalogger::_RTC_interrupt, LOW);
-  attachInterrupt(digitalPinToInterrupt(_RTC_int_pin), cadalogger::_RTC_interrupt, CHANGE);
-  sei();
-  sleep_cpu(); 
-  // sleeps here until the interrupt V falls
-  sleep_disable();
-//  detachInterrupt(digitalPinToInterrupt(_RTC_int_pin));
-  detachInterrupt(digitalPinToInterrupt(_RTC_int_pin));
-//  pinConfigure(_RTC_int_pin,PIN_ISC_DISABLE);
-=======
-    pinMode(_RTC_int_pin, INPUT);
+    pinMode(_RTC_int_pin,INPUT_PULLUP);
     cli();
     set_sleep_mode(SLEEP_MODE_STANDBY);  //  set_sleep_mode(SLEEP_MODE_PWR_DOWN);
     sleep_enable();
     attachInterrupt(digitalPinToInterrupt(_RTC_int_pin), cadalogger::_RTC_interrupt, LOW);
     sei();
-    sleep_cpu();
+    sleep_cpu(); 
     // sleeps here until the interrupt V falls
     sleep_disable();
     detachInterrupt(digitalPinToInterrupt(_RTC_int_pin));
-
   }
 
   if (_board_version == 1) {
@@ -451,7 +405,6 @@ void cadalogger::go_to_sleep_until_RTC_wake() {
     Wire.endTransmission();
 
   }
->>>>>>> 03ed3d71a03253df96dd04b566c7fee26c8dbd59:src/libraries/cadalogger.cpp
 }
 
 // possibly not needed at all now? - RTC's low signal is automatically cleared, I think
