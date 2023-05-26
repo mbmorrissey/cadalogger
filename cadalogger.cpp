@@ -38,15 +38,17 @@ void cadalogger::initialise() {
   }
 
   if (_board_version == 1) {
-    _uSD_SCL_pin = 6;
-    _uSD_MISO_pin = 5;
-    _uSD_MOSI_pin = 4;
-    _uSD_SS_pin = 7;
-    _uSD_power_pin = 9;
-    _LED_pin = 8;
-    _RTC_int_pin = 24;
+    _uSD_SCL_pin = 10;
+    _uSD_MISO_pin = 9;
+    _uSD_MOSI_pin = 8;
+    _uSD_SS_pin = 11;
+    _uSD_power_pin = 30;
+    _LED_pin = 31;
+    _RTC_int_pin = 28;
 
     Wire.begin();
+	delay(100);  
+	pinMode(_RTC_int_pin, INPUT);
     cadalogger::_prepare_rtc();
     for (byte i = 0; i < 33; i++) {
       pinMode(i, INPUT_PULLUP);
@@ -129,13 +131,15 @@ void cadalogger::_update_time_DS3231() {
   Wire.endTransmission();
 
   Wire.requestFrom(rtc_DS3231, 7);
-  byte cadalogger::time[ss] = cadalogger::_BcdToDec(Wire.read()); // sec
-  byte cadalogger::time[mi] = cadalogger::_BcdToDec(Wire.read()); // min
-  byte cadalogger::time[hh] = cadalogger::_BcdToDec(Wire.read()); // hour
+  cadalogger::time[0] = cadalogger::_BcdToDec(Wire.read()); // sec
+  cadalogger::time[1] = cadalogger::_BcdToDec(Wire.read()); // min
+  cadalogger::time[2] = cadalogger::_BcdToDec(Wire.read()); // hour
   byte weekday = Wire.read();
-  byte cadalogger::time[dd] = cadalogger::_BcdToDec(Wire.read()); // dayOfMonth
-  byte cadalogger::time[mo] = cadalogger::_BcdToDec(Wire.read()); // month
-  byte cadalogger::time[yy] = cadalogger::_BcdToDec(Wire.read()); // year
+  cadalogger::time[3] = cadalogger::_BcdToDec(Wire.read()); // dayOfMonth
+  cadalogger::time[4] = cadalogger::_BcdToDec(Wire.read()); // month
+  cadalogger::time[5] = cadalogger::_BcdToDec(Wire.read()); // year
+  Wire.endTransmission();
+
 }
 
 void cadalogger::_update_time_RV3032() {
@@ -152,8 +156,6 @@ void cadalogger::_update_time_RV3032() {
   }
   Wire.endTransmission();
 }
-
-
 
 void cadalogger::_prepare_rtc() {
   if (_board_version == 0) {
@@ -273,15 +275,15 @@ void cadalogger::write_time_to_rtc() {
 void cadalogger::_write_time_to_DS3231() {
   Wire.beginTransmission(rtc_DS3231);
   Wire.write(0x00); // register pointer
-  Wire.write(cadalogger::_DecToBcd(cadalogger::time[ss])); // set seconds
-  Wire.write(cadalogger::_DecToBcd(cadalogger::time[mi])); // set minutes
-  Wire.write(cadalogger::_DecToBcd(cadalogger::time[hh])); // set hours
+  Wire.write(cadalogger::_DecToBcd(cadalogger::time[0])); // set seconds
+  Wire.write(cadalogger::_DecToBcd(cadalogger::time[1])); // set minutes
+  Wire.write(cadalogger::_DecToBcd(cadalogger::time[2])); // set hours
   Wire.endTransmission();
   Wire.beginTransmission(rtc_DS3231);
   Wire.write(0x04); // register pointer
-  Wire.write(cadalogger::_DecToBcd(cadalogger::time[dd])); // set date
-  Wire.write(cadalogger::_DecToBcd(cadalogger::time[mo])); // set month
-  Wire.write(cadalogger::_DecToBcd(cadalogger::time[yy])); // set year
+  Wire.write(cadalogger::_DecToBcd(cadalogger::time[3])); // set date
+  Wire.write(cadalogger::_DecToBcd(cadalogger::time[4])); // set month
+  Wire.write(cadalogger::_DecToBcd(cadalogger::time[5])); // set year
   Wire.endTransmission();
 }
 
@@ -305,7 +307,7 @@ void cadalogger::_write_time_to_RV3032() {
 // This might be good to include logger::file.close(); before the rest of the shutdown routine
 void cadalogger::power_down_sd() {
 
-  if (boardVersion == 0) {
+  if (_board_version == 0) {
 	  
     rest(1024);  // give 1 second for uSD card housekeeping as per SD specification
     SD.end();
@@ -318,11 +320,12 @@ void cadalogger::power_down_sd() {
     digitalWrite(_uSD_power_pin, LOW);
   }
 
-  if (boardVersion == 1) {
+  if (_board_version == 1) {
 	  
     rest(1024);  // give 1 second for uSD card housekeeping as per SD specification
     SD.end();
     SPI.end();
+    SPI.swap(0); // pins back to default for normal SPI use
     pinMode(_uSD_SCL_pin, INPUT);
     pinMode(_uSD_MISO_pin, INPUT);
     pinMode(_uSD_MOSI_pin, INPUT);
@@ -333,7 +336,7 @@ void cadalogger::power_down_sd() {
 
 void cadalogger::power_up_sd() {
 
-  if (boardVersion == 0) {
+  if (_board_version == 0) {
 
     // not sure if this is redundant: check if SPI.begin() actually does all this?
     pinMode(_uSD_SS_pin, OUTPUT);
@@ -353,7 +356,7 @@ void cadalogger::power_up_sd() {
     SD.begin(_uSD_SS_pin);
   }
 
-  if (boardVersion == 1) {
+  if (_board_version == 1) {
 
     pinMode(_uSD_SS_pin, OUTPUT);
     digitalWrite(_uSD_SS_pin, HIGH);     //pullup the CS pin on the SD card (but only if you don’t already have a hardware pullup on your module)
@@ -366,7 +369,8 @@ void cadalogger::power_up_sd() {
     digitalWrite(_uSD_power_pin, LOW);   //logic-low turns on power switch.
 
     delay(10);
-
+    
+    SPI.swap(1);
     SPI.begin();
     SD.begin(_uSD_SS_pin);
   }
@@ -399,7 +403,7 @@ void cadalogger::go_to_sleep_until_RTC_wake() {
     // sleeps here until the interrupt V falls
     sleep_disable();
 
-    Wire.beginTransmission(rtc);       // reset alarm counter
+    Wire.beginTransmission(rtc_DS3231);// reset alarm counter
     Wire.write(0x0F);                  // address: status register
     Wire.write(0b00000000);            // set flag from alarm 1 to 0
     Wire.endTransmission();

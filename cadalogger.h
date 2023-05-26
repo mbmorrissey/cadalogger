@@ -21,6 +21,14 @@
 #define CADALOGGERMINI_SD_LED_PIN 24
 #define CADALOGGERMINI_SD_POWER_PIN 25
 
+#define CADALOGGERMAXI_RTC_INT_PIN 28
+#define CADALOGGERMAXI_SD_SS_PIN 11
+#define CADALOGGERMAXI_SD_SCL_PIN 10
+#define CADALOGGERMAXI_SD_MOSI_PIN 8
+#define CADALOGGERMAXI_SD_MISO_PIN 9
+#define CADALOGGERMAXI_SD_LED_PIN 30
+#define CADALOGGERMAXI_SD_POWER_PIN 30
+
 #include <SPI.h>
 #include <Wire.h>
 //#include <SD.h>   // n.b. Sandisk 32Gb cards do not sleep with megacorex's SD
