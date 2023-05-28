@@ -52,7 +52,6 @@ class cadalogger{
     void enable_watchdog();
     void disable_watchdog();
     void feed_watchdog();
-    void feed_watchdog();
     void print_time();
     void write_time_to_rtc();
     double rtc_temp();
