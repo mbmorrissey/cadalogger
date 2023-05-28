@@ -261,6 +261,42 @@ void cadalogger::_prepare_rtc_RV3032() {
 
 
 
+
+double cadalogger::rtc_temp(){
+  if(_board_version==0){
+    cadalogger::_rtc_temp_RV3032();
+  }
+  if(_board_version==1){
+    cadalogger::_rtc_temp_DS3231();
+  }
+}
+
+double  cadalogger::_rtc_temp_RV3032(){
+  Wire.beginTransmission(rtc_RV3032);  
+  Wire.write(0x0E);  // pointer
+  Wire.endTransmission();
+  Wire.requestFrom(rtc_RV3032,2);
+  byte temp_lsb = Wire.read();
+  byte temp_msb = Wire.read();
+  Wire.endTransmission(); 
+  byte sign = temp_msb >> 7;
+  if(sign==0){
+    temp_msb = temp_msb & 0x7F;
+    temp_lsb = (temp_lsb  & 0xF0) >> 4;
+  }else{
+    temp_msb = (~temp_msb) & 0x7F;
+    temp_lsb = (((~temp_lsb)  & 0xF0) >> 4) + 1;
+  }
+  double temp_decimal = ((-2*sign)+1)*(temp_msb + 0.0625*temp_lsb);
+  return(temp_decimal);
+}
+
+double  cadalogger::_rtc_temp_DS3231(){
+  
+}
+
+
+
 void cadalogger::write_time_to_rtc() {
   if (_board_version == 0) {
     cadalogger::_write_time_to_RV3032();
@@ -407,17 +443,21 @@ void cadalogger::go_to_sleep_until_RTC_wake() {
   }
 }
 
-// possibly not needed at all now? - RTC's low signal is automatically cleared, I think
 static void cadalogger::_RTC_interrupt() {
 }
 
 
-// I can't seem to figure out how to get the standard wdt enable command to work, though I can
-// get the standard disable one to work.  For now, the cleanest thing is to do it by writing directly
-// to WDT.CTRLA, so for consistency I here are functions to both enable and disable by this means
-void cadalogger::enable_watchdog() {
-  WDT.CTRLA = 0b00001011; // 0xB with 0 for window
+void cadalogger::enable_watchdog(){
+  RSTCTRL.RSTFR |= RSTCTRL_WDRF_bm;
+  wdt_enable(WDT_PERIOD_8KCLK_gc);
+  wdt_reset(); // probably redundant
 }
-void cadalogger::disable_watchdog() {
-  WDT.CTRLA = 0b00000000;
+
+void cadalogger::disable_watchdog(){
+  wdt_disable();
 }
+
+void cadalogger::feed_watchdog(){
+  wdt_reset();
+}
+
