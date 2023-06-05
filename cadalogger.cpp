@@ -294,7 +294,17 @@ double  cadalogger::_rtc_temp_RV3032(){
 }
 
 double  cadalogger::_rtc_temp_DS3231(){
+  Wire.beginTransmission(rtc_DS3231);
+  Wire.write(0x11);             // Temperature Registers (11h–12h)
+  Wire.endTransmission();
+  Wire.requestFrom(rtc_DS3231, 2);
+  byte rtcTempMSB = Wire.read();
+  byte rtcTempLSB = Wire.read();
+  Wire.endTransmission();
   
+  // Digital Temp Sensor Output: ±3°C Accuracy. Ignore Decimal.
+  // Temperature resigeters updated every 64 seconds
+  return(rtcTempMSB);
 }
 
 
@@ -429,7 +439,14 @@ void cadalogger::go_to_sleep_until_RTC_wake() {
 
   if (_board_version == 1) {
 
-    pinMode(_RTC_int_pin, INPUT);
+    // establish 8 second heartbeat
+    byte secReset = cadalogger::time[0] + 8;
+    if (secReset > 59) secReset = secReset - 60;
+    Wire.beginTransmission(rtc_DS3231);
+    Wire.write(0x07);                            //SEC Register address in Address Counter of RTC
+    Wire.write(cadalogger::_DecToBcd(secReset)); //data for SEC Register
+    Wire.endTransmission();
+    
     cli();
     set_sleep_mode(SLEEP_MODE_STANDBY);  //  set_sleep_mode(SLEEP_MODE_PWR_DOWN);
     sleep_enable();
@@ -439,7 +456,8 @@ void cadalogger::go_to_sleep_until_RTC_wake() {
     // sleeps here until the interrupt V falls
     sleep_disable();
 
-    Wire.beginTransmission(rtc_DS3231);// reset alarm counter
+    // reset alarm counter
+    Wire.beginTransmission(rtc_DS3231);
     Wire.write(0x0F);                  // address: status register
     Wire.write(0b00000000);            // set flag from alarm 1 to 0
     Wire.endTransmission();
@@ -464,4 +482,3 @@ void cadalogger::disable_watchdog(){
 void cadalogger::feed_watchdog(){
   wdt_reset();
 }
-

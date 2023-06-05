@@ -108,6 +108,9 @@ void loop() {
   delay(100);
   digitalWrite(PHOTO_pwr_pin, LOW);
 
+  // feed watchdog --------------------------------------------------------------------------
+  env.feed_watchdog();
+
   // print to serial monitor ----------------------------------------------------------------
   Serial.print("CHIRP Capacitance = ");
   Serial.println(CHIRPcap);
@@ -164,6 +167,12 @@ void loop() {
 
 
   // put board to sleep ----------------------------------------------------------------------
-  env.go_to_sleep_until_RTC_wake();
+  // sleep for 8 sec * sleep / 60 = X minutes
+  for (byte sleep = 0; sleep < 5; sleep++) {
+    env.feed_watchdog();
+    env.update_time();
+    env.go_to_sleep_until_RTC_wake();
+    env.flash(1);
+  }
 
 }
