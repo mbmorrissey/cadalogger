@@ -450,7 +450,7 @@ void cadalogger::go_to_sleep_until_RTC_wake() {
     cli();
     set_sleep_mode(SLEEP_MODE_STANDBY);  //  set_sleep_mode(SLEEP_MODE_PWR_DOWN);
     sleep_enable();
-    attachInterrupt(digitalPinToInterrupt(_RTC_int_pin), cadalogger::_RTC_interrupt, LOW);
+    attachInterrupt(digitalPinToInterrupt(_RTC_int_pin), cadalogger::_RTC_interrupt, FALLING);
     sei();
     sleep_cpu();
     // sleeps here until the interrupt V falls
