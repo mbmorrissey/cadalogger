@@ -1,20 +1,35 @@
+/*
+
+  Cadalogger example recording micro-environmental conditions
+
+  sensors:
+  - SHT31 Temperature & Humidity sensor (https://thepihut.com/products/sht31-weather-proof-temperature-humidity-sensor)
+  - CHIRP Capacitive Soil Moisture & Light sensor (https://wemakethings.net/chirp/)
+  - TEPT5700 Photoresistor, 570 nm
+
+*/
 
 #include "cadalogger.h"
+// cadalogger env(CADALOGGERMINI);    // surfacemount board
+cadalogger env(CADALOGGERMAXI);       // through-hole board
 
-// cadalogger env(CADALOGGERMINI); // surfacemount board
-cadalogger env(CADALOGGERMAXI);    // through-hole board
+#include <SoftwareWire.h>                 // to create a software I2C bus on any two pins
+#define sda_soft 13
+#define scl_soft 12
+SoftwareWire myWire(sda_soft, scl_soft);  // define software SDA, SCL pins
 
 File file;                            // cadalogger loads SdFat
 
 // Thermometer ------------------------------------------------------------------------------
-#define tempHum 0x44                  // I2C address of the SEN temperature and humidity sensor
+#define tempHum 0x44                  // I2C address of the temperature and humidity sensor
 
 // MOISTure sensor --------------------------------------------------------------------------
 #define chirp 0x20                    // I2C address of the CHIRP moisture sensor
 
 // PHOTOtransistor --------------------------------------------------------------------------
 #define PHOTO_pin 24                  // phototransistor connected to ATmega on this pin
-#define PHOTO_pwr_pin 25
+
+#define pwr_pin 29                    // power pin for CHIRP and phototransistor
 
 // function to compactify writing time/date to SD card
 void write_time() {
@@ -32,22 +47,26 @@ void setup() {
 
   // turn on pins needed
   pinMode(PHOTO_pin, INPUT);               // photoresistor
-  pinMode(PHOTO_pwr_pin, OUTPUT);
-  digitalWrite(PHOTO_pwr_pin, LOW);
+  pinMode(pwr_pin, OUTPUT);
 
   // set up temperature and humidity sensor
   Wire.beginTransmission(tempHum);
   Wire.write(0x00);                        // reset device
   Wire.endTransmission();
 
-  // set up moisture sensor
-  Wire.beginTransmission(chirp);
-  Wire.write(0x06);                        // reset device
-  Wire.endTransmission();
+  // set up CHIRP soil moisture sensor
+  digitalWrite(pwr_pin, HIGH);            // CHIRP on
+  delay(300);
 
-  Wire.beginTransmission(chirp);           // sleep device
-  Wire.write(0x08);
-  Wire.endTransmission();
+  myWire.begin();
+  myWire.beginTransmission(chirp);
+  myWire.write(0x06);                    // reset device
+  myWire.endTransmission(true);
+  delay(10);
+
+  digitalWrite(pwr_pin, LOW);            // CHIRP off
+  digitalWrite(sda_soft, LOW);
+  digitalWrite(scl_soft, LOW);
 }
 
 void loop() {
@@ -80,33 +99,40 @@ void loop() {
   uint16_t rawTemperature = (buffer[0] << 8) + buffer[1];
   uint16_t rawHumidity = (buffer[3] << 8) + buffer[1];
 
-  // conversions on pg 13
+  // conversions on datasheet pg 13
   float SEN0385Temp = rawTemperature * (175.0 / 65535) - 45;
   float SEN0385Hum = rawHumidity * (100.0 / 65535);
 
   // MOISTure sensor ------------------------------------------------------------------------
-  Wire.beginTransmission(chirp);
-  Wire.write(0x00);                // capacitance
-  Wire.endTransmission();
+  digitalWrite(sda_soft, HIGH);
+  digitalWrite(scl_soft, HIGH);
+  digitalWrite(pwr_pin, HIGH);        // CHIRP on
+  delay(300);
 
+  myWire.beginTransmission(chirp);
+  myWire.write(0x00);                 // capacitance
+  myWire.endTransmission();
   delay(20);
+  myWire.requestFrom(chirp, 2);
+  unsigned int CHIRPcap = myWire.read() << 8;
+  CHIRPcap = CHIRPcap | myWire.read();
+  myWire.endTransmission(true);
+  // myWire.beginTransmission(chirp);  // put device to sleep
+  // myWire.write(0x08);
+  // myWire.endTransmission();
 
-  Wire.requestFrom(chirp, 2);
-  unsigned int CHIRPcap = Wire.read() << 8;
-  CHIRPcap = CHIRPcap | Wire.read();
-  Wire.beginTransmission(chirp);   // put device to sleep
-  Wire.write(0x08);
-  Wire.endTransmission();
+  digitalWrite(sda_soft, LOW);
+  digitalWrite(scl_soft, LOW);        // CHIRP off
 
   // PHOTOTRANSISTOR ------------------------------------------------------------------------
-  digitalWrite(PHOTO_pwr_pin, HIGH);
-  delay(100);
-
   int sensorLight = analogRead(PHOTO_pin);             // read analog value of phototransmitter
   float voltage = sensorLight * (3.3 / 1023.0);        // analog-to-digital converter: convert 0-1023 reading to 0-3.3v voltage
 
   delay(100);
-  digitalWrite(PHOTO_pwr_pin, LOW);
+  digitalWrite(pwr_pin, LOW);        // power down pin for MOIST sensor and phototransistor
+
+  // feed watchdog --------------------------------------------------------------------------
+  env.feed_watchdog();
 
   // print to serial monitor ----------------------------------------------------------------
   Serial.print("CHIRP Capacitance = ");
@@ -164,6 +190,13 @@ void loop() {
 
 
   // put board to sleep ----------------------------------------------------------------------
-  env.go_to_sleep_until_RTC_wake();
+  // sleep for 8 sec * sleep / 60 = X minutes
+  // sleep for 8 sec * 120 / 60 = 16 minutes
+  for (byte sleep = 0; sleep < 60; sleep++) {
+    env.feed_watchdog();
+    env.update_time();
+    env.go_to_sleep_until_RTC_wake();
+    env.flash(1);
+  }
 
 }
