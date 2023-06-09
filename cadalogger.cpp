@@ -265,12 +265,14 @@ void cadalogger::_prepare_rtc_RV3032() {
 
 
 double cadalogger::rtc_temp(){
+  double t;
   if(_board_version==0){
-    cadalogger::_rtc_temp_RV3032();
+    t = cadalogger::_rtc_temp_RV3032();
   }
   if(_board_version==1){
-    cadalogger::_rtc_temp_DS3231();
+    t = cadalogger::_rtc_temp_DS3231();
   }
+  return(t);
 }
 
 double  cadalogger::_rtc_temp_RV3032(){
