@@ -15,6 +15,14 @@ This project aims to generate easy-to-use open-source hardware and software for 
 
 ## Programming
 
+### Programming
+
+The ATMega480X MCUs used in cadalogger boards are programmed over UPDI.  The boards have three pins for programming: ground, 3.3V and UPDI.
+
+[include images of both boards, highlighting programming headers]
+
+
+
 [...UPDI, bootloaders, USB-serial, MegaCoreX...]
 
 ## Power considerations
