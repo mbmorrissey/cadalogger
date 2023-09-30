@@ -1,6 +1,7 @@
 # cadalogger
 arduino-inspired boards to support data logging in ecology and environmental science
 
+Here is a video introducing the cadalogger project.  We're hoping to develop better documentation, including videos with better production quality, over the next few years!
 [![A quick intro to cadalogger](https://img.youtube.com/vi/7qkBjCcAluY/0.jpg)](https://www.youtube.com/watch?v=7qkBjCcAluY)
 
 
