@@ -3,6 +3,8 @@ arduino-inspired boards to support data logging in ecology and environmental sci
 
 [![A quick intro to cadalogger](https://img.youtube.com/vi/X45r74pawpw/0.jpg)](https://www.youtube.com/watch?v=X45r74pawpw)
 
+
+
 ## Preamble
 
 This project aims to generate easy-to-use open-source hardware and software for data logging for ecology and environmental science field studies.  The goal is to produce hardware and software for arduino-like (and arduino-compatible) boards that bring together key elements needed for most data loggers, in arrangemets that support low-power field deployments.
