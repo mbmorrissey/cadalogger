@@ -1,9 +1,7 @@
 # cadalogger
 arduino-inspired boards to support data logging in ecology and environmental science
 
-[![Now in Android: 55]          // Title
-(https://i.ytimg.com/vi/Hc79sDi3f0U/maxresdefault.jpg)] // Thumbnail
-(https://www.youtube.com/watch?v=Hc79sDi3f0U "Now in Android: 55")    //
+[![Now in Android: 55](https://i.ytimg.com/vi/Hc79sDi3f0U/maxresdefault.jpg)] (https://www.youtube.com/watch?v=Hc79sDi3f0U "Now in Android: 55")  
 
 ## Preamble
 
