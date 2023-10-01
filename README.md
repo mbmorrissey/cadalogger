@@ -2,11 +2,11 @@
 arduino-inspired boards to support data logging in ecology and environmental science
 
 ## Contents
-- [preamble with introductory video](## Preamble)
+- [preamble with introductory video](#preamble)
 - programming information
 - library and functions
 - ongoing development questions
-- [examples](## Examples)
+- [examples](#examples)
 
 
 ## Preamble
