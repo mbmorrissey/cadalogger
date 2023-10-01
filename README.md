@@ -1,23 +1,15 @@
 # cadalogger
 arduino-inspired boards to support data logging in ecology and environmental science
 
-Here is a video introducing the cadalogger project.  We're hoping to develop better documentation, including videos with better production quality, over the next few years!
-
-[![A quick intro to cadalogger](https://img.youtube.com/vi/7qkBjCcAluY/0.jpg)](https://www.youtube.com/watch?v=7qkBjCcAluY)
-
 
 
 ## Preamble
 
 This project aims to generate easy-to-use open-source hardware and software for data logging for ecology and environmental science field studies.  The goal is to produce hardware and software for arduino-like (and arduino-compatible) boards that bring together key elements needed for most data loggers, in arrangemets that support low-power field deployments.
 
-## Motivation
+Here is a video introducing the cadalogger project.  We're hoping to develop better documentation, including videos with better production quality, over the next few years!
 
-[...exmaplain the hurdles to getting an arduino (or similar) or RPi-based system from the bench to the field...]
-
-## Hardware
-
-[...overview, photos, brief description of compact vs easy-to-assemble verions, pinouts]
+[![A quick intro to cadalogger](https://img.youtube.com/vi/7qkBjCcAluY/0.jpg)](https://www.youtube.com/watch?v=7qkBjCcAluY)
 
 
 ## Programming
@@ -56,6 +48,44 @@ Using a SerialUPDI adapter, see above, you will want to set the following
 [instructions on how to install the library from zip]
 
 
+## Functions
+
+    cadalogger(byte boardVersion);
+    void initialise();
+    void initialise(int heartbeat);
+    void flash(byte flashes);
+    void rest(int cycles);
+    void update_time();
+    void power_down_sd();
+    void power_down_sd(bool wait);
+    void power_up_sd();
+    void go_to_sleep_until_RTC_wake();
+    void enable_watchdog();
+    void disable_watchdog();
+    void feed_watchdog();
+    void print_time();
+    void write_time_to_rtc();
+    double rtc_temp();
+    
+cadalogger(byte boardVersion); 
+
+- constructor
+- boardVersion=CADALOGGERMINI for small surface mount board
+- boardVersion=CADALOGGERMAXI for hand-assembled largely through hole version
+
+void initialise();
+void initialise(int heartbeat);
+
+- initialise with or without heartbeat
+- sets pin states to minimise power loss, sets up RTC
+- heartbeat is interval in seconds for a periodic RTC interrupt, and is used to allow sleep modes with regular wake-up
+- arbitrary heartbeat intervals are allowed on if boardVersion==CADALOGGERMINI, for boardVersion==CADALOGGERMINI, 5s is currently required
+
+
+
+## Examples
+
+See the /examples/ director for code for each example.  Here is some further context for each.
 
 ### Blink: the 'Hello world!' of microcontrollers
 
@@ -63,7 +93,7 @@ Using a SerialUPDI adapter, see above, you will want to set the following
 
 
 
-## Examples
+### Sunshine: the 'Hello world!' of environmental data loggers
 
 Here we list two simple examples for getting started.  More varied examples are detailed here.
 
@@ -74,6 +104,17 @@ Here we list two simple examples for getting started.  More varied examples are 
 - powering sensor circuits with a MCU pin
 - saving data from multiple data reads between bulk writes to the SD card
 
+
+### Templogger: from 'sunshine', it isn't too far to other programs
+
+Temperature 
+
+
+### Temperature logger with ultrasonic distance (river stage and temperature)
+
+
+
+### Temperature logger with satellite data transmission
 
 
 
