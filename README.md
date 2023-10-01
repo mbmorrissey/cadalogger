@@ -136,7 +136,7 @@ cadalogger::SD
 
 ### Software (cadalogger library)
 
-- cadalogger functions include very little error and exception handling; most functions return 'void'
+- cadalogger functions include very little error and exception handling; most functions return `void`
 
 
 
