@@ -1,15 +1,6 @@
 # cadalogger
 arduino-inspired boards to support data logging in ecology and environmental science
 
-## Contents
-- [preamble with introductory video](#preamble)
-- [programming information](#programming)
-- [library and functions](#library)
-- [ongoing development questions](#development)
-- [examples](#examples)
-- [do you want to try?](#contact)
-
-
 ## Preamble
 
 This project aims to generate easy-to-use open-source hardware and software for data logging for ecology and environmental science field studies.  The goal is to produce hardware and software for arduino-like (and arduino-compatible) boards that bring together key elements needed for most data loggers, in arrangemets that support low-power field deployments.
@@ -17,6 +8,15 @@ This project aims to generate easy-to-use open-source hardware and software for 
 Here is a video introducing the cadalogger project.  We're hoping to develop better documentation, including videos with better production quality, over the next few years!
 
 [![A quick intro to cadalogger](https://img.youtube.com/vi/7qkBjCcAluY/0.jpg)](https://www.youtube.com/watch?v=7qkBjCcAluY)
+
+
+## Contents
+- [preamble with introductory video](#preamble)
+- [programming information](#programming)
+- [library and functions](#library)
+- [ongoing development questions](#development)
+- [examples](#examples)
+- [do you want to try?](#contact)
 
 
 ## Programming
@@ -189,7 +189,7 @@ Temperature
 
 ## Contact
 
-We have some, but presently limited, ability to provide prepared cadalogger boards.  We will try to help out anyone who is interested in using or testing!  If we cannot provide an assembled board, we can provide guidance on navigating the full open-source documentation provided here (e.g., see `/hardware/` drectory for schematics, gerbers, and BOM to build your own.  Please get in touch via [Michael](mailto:mbm5@st-andrews.ac.uk) or [Rebecca](mailto:rn71@st-andrews.ac.uk)
+We have some, but presently limited, ability to provide prepared cadalogger boards.  We will try to help out anyone who is interested in using or testing!  If we cannot provide an assembled board, we can provide guidance on navigating the full open-source documentation provided here (e.g., see `/hardware/` drectory for schematics, gerbers, and BOM to build your own.  Please get in touch via [Michael](mailto:mbm5@st-andrews.ac.uk) or [Rebecca](mailto:rn71@st-andrews.ac.uk).
 
 
 
