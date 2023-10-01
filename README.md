@@ -5,7 +5,7 @@ arduino-inspired boards to support data logging in ecology and environmental sci
 - [preamble with introductory video](#preamble)
 - [programming information](#programming)
 - [library and functions](#library)
-- [ongoing development questions](#ongoing)
+- [ongoing development questions](#development)
 - [examples](#examples)
 
 
@@ -49,12 +49,12 @@ Using a SerialUPDI adapter, see above, you will want to set the following
 
 
 
-### Library
+## Library
 
-[instructions on how to install the library from zip]
+The library files (cadalogger.h and cadalogger.cpp) available in the `/src` directory of this repository can either be included in a folder titled `cadalogger` in your local `/Arduino/libraries/` directory, or can be included in the same directory and any sketch (i.e., `.ino` file in the Arduino IDE) that uses them.  They can then be included in a sketch in the usual way using `#include "cadalogger.h"` or '#include <cadalogger.h>'
 
 
-## Functions
+### Functions
 
     
 `cadalogger(byte boardVersion)`
@@ -130,7 +130,7 @@ void write_time_to_rtc();
 - an instance of SD from library SdFat
 
 
-## Ongoing development
+## Development
 
 ### Hardware development
 
