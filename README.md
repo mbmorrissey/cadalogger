@@ -4,7 +4,7 @@ arduino-inspired boards to support data logging in ecology and environmental sci
 ## Contents
 - [preamble with introductory video](#preamble)
 - [programming information](#programming)
-- [library and functions](#cadalogger)
+- [library and functions](#library)
 - [ongoing development questions](#ongoing)
 - [examples](#examples)
 
@@ -49,7 +49,7 @@ Using a SerialUPDI adapter, see above, you will want to set the following
 
 
 
-### Cadalogger library
+### Library
 
 [instructions on how to install the library from zip]
 
