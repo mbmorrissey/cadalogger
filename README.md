@@ -5,7 +5,7 @@ arduino-inspired boards to support data logging in ecology and environmental sci
 - [preamble with introductory video](#preamble)
 - [programming information](#programming)
 - [library and functions](#cadalogger)
-- [ongoing development questions](#openquestionsfordevelopment)
+- [ongoing development questions](#open)
 - [examples](#examples)
 
 
