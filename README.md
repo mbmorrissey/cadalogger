@@ -7,6 +7,7 @@ arduino-inspired boards to support data logging in ecology and environmental sci
 - [library and functions](#library)
 - [ongoing development questions](#development)
 - [examples](#examples)
+- [do you want to try?](#contact)
 
 
 ## Preamble
@@ -185,6 +186,10 @@ Temperature
 
 ### Temperature logger with satellite data transmission
 
+
+## Contact
+
+We have some, but presently limited, ability to provide prepared cadalogger boards.  We will try to help out anyone who is interested in using or testing!  If we cannot provide an assembled board, we can provide guidance on navigating the full open-source documentation provided here (e.g., see `/hardware/` drectory for schematics, gerbers, and BOM to build your own.  Please get in touch via [Michael](mailto:mbm5@st-andrews.ac.uk) or [Rebecca](mailto:rn71@st-andrews.ac.uk)
 
 
 
