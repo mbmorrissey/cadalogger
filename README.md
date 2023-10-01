@@ -157,6 +157,8 @@ void write_time_to_rtc();
 
 See the /examples/ directory for code for each example.  Here is some further context for each.
 
+*Please note that these examples are not extensively field tested.  They are not intended as advice as to what designs will work well and generate valid data.  Each has been deployed in the field for some weeks or months, but we still need to embark on a major effort to assess what kinds of deployments are reliable, and wehre problems can arise.  We also make no guarantee that data collected in any of these examples will be fit for any specific purpose.  Use-specific validation is required for any application based on these examples.*
+
 ### Blink: the 'Hello world!' of microcontrollers
 
 [instructions on how to get blink working]
