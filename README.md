@@ -5,7 +5,7 @@ arduino-inspired boards to support data logging in ecology and environmental sci
 - [preamble with introductory video](#preamble)
 - [programming information](#programming)
 - [library and functions](#cadalogger)
-- [ongoing development questions](#open)
+- [ongoing development questions](#ongoing)
 - [examples](#examples)
 
 
@@ -130,7 +130,7 @@ void write_time_to_rtc();
 - an instance of SD from library SdFat
 
 
-## Open questions for development
+## Ongoing development
 
 ### Hardware development
 
