@@ -157,29 +157,29 @@ void write_time_to_rtc();
 
 See the /examples/ directory for code for each example.  Here is some further context for each.
 
-*Please note that these examples are not extensively field tested.  They are not intended as advice as to what designs will work well and generate valid data.  Each has been deployed in the field for some weeks or months, but we still need to embark on a major effort to assess what kinds of deployments are reliable, and wehre problems can arise.  We also make no guarantee that data collected in any of these examples will be fit for any specific purpose.  Use-specific validation is required for any application based on these examples.*
+*Please note that most of these examples are not extensively field tested.  They are not intended as advice as to what designs will work well and generate valid data.  These examples are intended to be instructive about how cadaloggers might be deployed to various uses.  We still need to embark on a major effort to assess what kinds of deployments are reliable, and where problems can arise.  We also make no guarantee that data collected in any of these examples will be fit for any specific purpose.  Use-specific validation is required for any application based on these examples.*
 
 ### Blink: the 'Hello world!' of microcontrollers
 
-[instructions on how to get blink working]
+The sketch `blink.ino` in the `/examples/` directory can be uploaded to a cadalogger board using the directions for programming above.  This sketch is designed to be as similar as possible to blink on any other arduino-compatible microcontroller board.  `flash.ino` is a blink equivalent that uses the cadalogger libraries functions for manipulating the on-board LED in a more energy efficient way.
+
+### `set_time.ino`: getting the time onto the real time clock
 
 
 
 ### Sunshine: the 'Hello world!' of environmental data loggers
 
-Here we list two simple examples for getting started.  More varied examples are detailed here.
+A common tutorial to introduce collecting information from a sensor involves reading a light level using a light dependent resistor or a photodiode.  This examples does the same, but introduces other data logging aspects, saving the light level data to a SD card with time stamps, and sleeping with very low power consumption betwen reads.
 
-*sunshine.ino* A simple data logger example demonstrating several power-saving tricks including:
-
-- deep sleep
-- depowering the SD card
-- powering sensor circuits with a MCU pin
-- saving data from multiple data reads between bulk writes to the SD card
-
+Connections:
+- ...
 
 ### Templogger: from 'sunshine', it isn't too far to other programs
 
-Temperature 
+Here we swap out the sensor in the sunshine example for a DS18b20 waterproof temperature probe.
+
+Connections:
+- ...
 
 
 ### Temperature logger with ultrasonic distance (river stage and temperature)
@@ -212,7 +212,7 @@ The satellite modem is reasonably efficient (considering it is transmittign a me
 
 ### An RS323 sensor and battery power
 
-A major design goal for cadalogger is to make it plausible to power long-term data logging deployments off of inexpensive and easy to obtain batteries.  However, sometimes we may wish to operate sensors that require enough power that some kind of topping up may be necessary.  In this example, a WindSonic (TM) ultrasonic anemomiter is operated using a cadalogger board...
+A major design goal for cadalogger is to make it plausible to power long-term data logging deployments off of inexpensive and easy to obtain batteries.  However, sometimes we may wish to operate sensors that require enough power that some kind of topping up may be necessary.  In this example, a WindSonic (TM) ultrasonic anemometer is operated using a cadalogger board...
 
 
 ## Contact
