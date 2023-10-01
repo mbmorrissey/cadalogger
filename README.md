@@ -182,16 +182,35 @@ Temperature
 
 ### Temperature logger with ultrasonic distance (river stage and temperature)
 
+This design adds a waterproof ultrasonic distance censor to log river water level, as well as water temperature.  The sketch is in the `/examples/` directory (direct link).  The logger wakes every ten minutes to take a series of readings from the distance sensor, of which ten are kept and averaged.  Time, distance to the water surface, and water temperature are written to the SD card.
+
 Connections
 - 3xAA battery pack + to cadalogger Vin
 - 3xAA battery pack - to cadalogger GND
+- 4.7k resistor from DS18b20 signal (yellow) to 3.3
 - cadalogger 3.3V to DS18b20 red wire
 - cadalogger XX to DS18b20 yellow wire
 - cadalogger GND to DS18b20 black wire
-- cadalogger 3.3V to 
-
+- cadalogger 3.3V to JSN-SR04Tv3 5V
+- cadalogger GND to JSN-SR04Tv3 GND
+- cadalogger TX to JSN-SR04Tv3 XX
+- cadalogger RX to JSN-SR04Tv3 XX
 
 ### Temperature logger with satellite data transmission
+
+This design returns to the simple scheme of only logging temperature. However, in addition to saving the temperature record, it transmits the data over the Iridium satellite network using a RockBlock 9603 modem.  A subscription to the satellite service is required (see here).
+
+The logger wakes every hour to record temperature, and saves 12 reads before each transmitting, thus transmitting a bulk data summary twice a day.
+
+What becomes of the messages depends on settings in that can be arranged when you subscribe to the service.  In the video, we simply see the data being received by email.
+
+Messages up to 50 bytes have a fixed cost, so for simplicity
+
+The satellite modem is reasonably efficient (considering it is transmittign a message that can be detected in space!), but this design would be expected to last approximately X weeks on 3xAA batteries.  We have tested it with AAs for short periods, but suggest it would be most useful to deploy with higher capacity batteries, such as 3xD cells.
+
+### An RS323 sensor and battery power
+
+A major design goal for cadalogger is to make it plausible to power long-term data logging deployments off of inexpensive and easy to obtain batteries.  However, sometimes we may wish to operate sensors that require enough power that some kind of topping up may be necessary.  In this example, a WindSonic (TM) ultrasonic anemomiter is operated using a cadalogger board...
 
 
 ## Contact
