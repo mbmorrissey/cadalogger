@@ -182,6 +182,13 @@ Temperature
 
 ### Temperature logger with ultrasonic distance (river stage and temperature)
 
+Connections
+- 3xAA battery pack + to cadalogger Vin
+- 3xAA battery pack - to cadalogger GND
+- cadalogger 3.3V to DS18b20 red wire
+- cadalogger XX to DS18b20 yellow wire
+- cadalogger GND to DS18b20 black wire
+- cadalogger 3.3V to 
 
 
 ### Temperature logger with satellite data transmission
