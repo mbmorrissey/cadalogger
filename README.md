@@ -135,7 +135,7 @@ void write_time_to_rtc();
 
 ### Hardware development
 
-- MCU choice: the `CADALOGGERMINI` board version uses the ATMega4808 and the CADALOGGERMAXI uses the ATMega4809.  The 4808 comes in a more convenient package for surfact mount hand-assembly, while the 4809 is the only MCU in the family that comes in a surface mount package.  With a shift to automated assembly of the MINI board, we may consider changing it to using a surface mount version of the ATMega 4809 MCU.  This should cause few changes to usage
+- MCU choice: the `CADALOGGERMINI` board version uses the ATMega4808 and the CADALOGGERMAXI uses the ATMega4809.  The 4808 comes in a more convenient package for surfact mount hand-assembly, while the 4809 is the only MCU in the family that comes in a surface mount package.  With a shift to automated assembly of the MINI board, we may consider changing it to using a surface mount version of the ATMega 4809 MCU.  This should cause few changes to usage, but some improvements.  For example, the built in LED pin could be made consistent between board versions, allowing the defintion of LED_BUILTIN so the standard blink sketch runns correctly, and likely other such useful minor streamlining.
 - protection: the boards currently do not have reverse polarity (i.e., guards against attaching a battery backwards) or over-current protection.  The design appears to be proving to be fairly robust.  Adding these protections would have drawbacks including some combination of extra components (more cost and space), less efficient voltage regulator (i.e., higher sleeping current).  However, with a greater range of field testing experience, we think this decision should be revisited in the future.
 - USB connectivity: the boards are programmed over USB via a USB to serial converter module.  Many such modules are on the market.  We expect many uses of cadalogger boards to involve deployments of multiple boards, and so a typical user will save money by not having the cost of a USB-serial converter on every board.  Such a converter could be added, but would come at a financial cost, plus a use of space and power
 - storage media: cadalogger is primarily conceived for logging to SD card, but as efficiently as possible.  There could be a greater role for alternative storage media, such as FRAM (for which there is provision for optional addition to the back of the `CADALOGGERMINI` board).  SD cards are generaly robust and reliable existing arduino libraries allow them to be used with a file system that allows data to be written in familiar formats and easily shifted to a computer for import into spreadsheets, R, python, etc.  However, FRAM is probably more robust, and is likely to be necessary in very low temperature environments.  We suspect that the use of FRAM as an option is appropriate, but with more field testing and feedback from a wide range of users, we intend to revisit this decision in the future.
@@ -144,14 +144,17 @@ void write_time_to_rtc();
 ### Software (cadalogger library and board definition) development
 
 - cadalogger functions include very little error and exception handling; most functions return `void` rather than useful indicators of success or errors
+- many things are hard-coded that should be flexible or more flexible.  For e.g., some aspects of wake/sleep cycles and watchdog timer
 - cadalogger library functionality works in ways that make sense to @mbmorrissey and @rebebba; how much they are intuitive to others, and how to make them intuitive, will result from consultation with expertis in open source materials and from feedback from diverse users
-- possible specific changes to library too numerous to consider
+- possible specific changes to library too numerous to consider, but for e.g., many things are hard-coded that should be flexible or more flexible, incl. some aspects of wake/sleep cycles and watchdog timer.  Another example is handling of date-time information
+- decision needs to be made about accommodating fuller functionality of RTCs via the cadalogger library vs whether full functionality should be exposed via libraries; if so, need to determine if we satisfied with existing libraries
 - future development will generate a formal arduino board definition in order to simplify initial set-up
 
 ### Example bank development
 
 - we are slowly developing a set of examples.  We are seeking examples contributed from others to increase the diversity of cases and their presentation
-- we would like to develop more extensive examples including code and hardware descriptions, as well as more extensive case studies including comparisons to existing or alternate types of installations, detailed ground-truthign and callibration, and accounting for costs broadly, including human effort
+- we would like to develop more extensive examples including code and hardware descriptions
+- we would also like to build up more extensive extensive case study examples, including comparisons to existing or alternate types of installations, detailed ground-truthing and callibration, and accounting for costs very broadly, including human effort
 
 ## Examples
 
