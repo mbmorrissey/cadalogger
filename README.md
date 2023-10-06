@@ -213,7 +213,7 @@ Messages up to 50 bytes have a fixed cost, so for simplicity
 
 The satellite modem is reasonably efficient (considering it is transmittign a message that can be detected in space!), but this design would be expected to last approximately X weeks on 3xAA batteries.  We have tested it with AAs for short periods, but suggest it would be most useful to deploy with higher capacity batteries, such as 3xD cells.
 
-### An RS323 sensor and battery power
+### An RS232 sensor and solar power
 
 A major design goal for cadalogger is to make it plausible to power long-term data logging deployments off of inexpensive and easy to obtain batteries.  However, sometimes we may wish to operate sensors that require enough power that some kind of topping up may be necessary.  In this example, a WindSonic (TM) ultrasonic anemometer is operated using a cadalogger board...
 
