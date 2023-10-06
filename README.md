@@ -46,9 +46,28 @@ An UPDI programmer is required.  SerialUPDI is the simplest and least expensive 
 
 A new build of a cadalogger board will need an bootloader to be burned.  This allows the microcontroller to receive further programming instructions over serial.
 
-Using a SerialUPDI adapter, see above, you will want to set the following
+Using a SerialUPDI adapter, see above, you will want to set up as follows
 
+- SerialUPDI connector inserted between USB-serial converter module, and conected to GND, V and UPDI on cadalogger board
 
+For cadalogger mini
+- Tools > Board > MegaCoreX > ATMega4808
+- Tools > Port > as appropriate for your USB-serial adapter
+- Tools > Bootloader > Optiboot (UART0 default pins)
+- Tools > Clock > Internal 4 MHz
+- Tools > Pinout > 32 pin standard
+- Tools > Reset pin > reset
+
+For cadalogger maxi
+- Tools > Board > MegaCoreX > ATMega4809
+- Tools > Port > as appropriate for your USB-serial adapter
+- Tools > Bootloader > Optiboot (UART0 default pins)
+- Tools > Clock > Internal 4 MHz
+- Tools > Pinout > 48 pin standard
+- Tools > Reset pin > reset
+
+Once set up, selecte Tools > Burn Bootloader.  A bootloader shoud be uploaded, and subsequent uploading of compiled sketches should be possible directly using a USB-serial 
+module and the 6-pin serial header pins.
 
 ## Library
 
