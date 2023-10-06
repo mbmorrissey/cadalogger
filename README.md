@@ -40,7 +40,31 @@ The ATMega480X MCUs used in cadalogger boards are programmed over UPDI.  The boa
 
 [include images of both boards, highlighting programming headers]
 
-An UPDI programmer is required.  SerialUPDI is the simplest and least expensive option.  See here for more
+An UPDI programmer is required for a new board.  SerialUPDI is the simplest and least expensive option.  See below for more as well as 
+[here](https://github.com/SpenceKonde/AVR-Guidance/blob/master/UPDI/jtag2updi.md).  A dedicated UPDI programmer is 
+also a good option, see [here](https://github.com/MCUdude/microUPDI).  Unless we have supplied you with an example 
+board, and said that we ahve uploaded a bootloader, you'll have to do so.
+
+Once a bootloader is uploaded, you will need to connect a USB-serial adapter to the cadalogger's 6-pin programming header, and select the following settings in the Arduino 
+IDE:
+
+For cadalogger mini
+- Tools > Board > MegaCoreX > ATMega4808
+- Tools > Port > as appropriate for your USB-serial adapter
+- Tools > Bootloader > Optiboot (UART0 default pins)
+- Tools > Clock > Internal 4 MHz
+- Tools > Pinout > 32 pin standard
+- Tools > Reset pin > reset
+
+For cadalogger maxi
+- Tools > Board > MegaCoreX > ATMega4809
+- Tools > Port > as appropriate for your USB-serial adapter
+- Tools > Bootloader > Optiboot (UART0 default pins)
+- Tools > Clock > Internal 4 MHz
+- Tools > Pinout > 48 pin standard
+- Tools > Reset pin > reset
+
+Once these settings are in place, you should be able to upload using the upload button near the top left of any sketch's window in the IDE, or using Sketch > UPload, or 
 
 ### Uploading a bootloader
 
