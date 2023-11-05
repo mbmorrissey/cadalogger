@@ -99,9 +99,13 @@ module and the 6-pin serial header pins.
 
 ## Pinouts
 
-<img src="/images/MINI_pinout.png" width="300" height="300">
+Pinout for the main cadalogger board:
 
-<img src="/images/MAXI_pinout.png" width="300" height="300">
+<img src="/images/MINI_pinout.png" width="400" height="400">
+
+Pinout for the board variant optimised for hand assembly:
+
+<img src="/images/MAXI_pinout.png" width="400" height="500">
 
 ## Library
 
