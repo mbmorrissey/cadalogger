@@ -99,7 +99,7 @@ module and the 6-pin serial header pins.
 
 ## Pinouts
 
-![mini pinout](/images/MINI_pinout.png)
+![mini pinout](/images/MINI_pinout.png|width=300)
 
 ![maxi pinout](/images/MAXI_pinout.png)
 
