@@ -105,7 +105,7 @@ Pinout for the main cadalogger board:
 
 Pinout for the board variant optimised for hand assembly:
 
-<img src="/images/MAXI_pinout.png" width="400" height="500">
+<img src="/images/MAXI_pinout.png" width="500" height="620">
 
 ## Library
 
