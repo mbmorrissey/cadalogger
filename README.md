@@ -1,6 +1,10 @@
 # cadalogger
 arduino-inspired boards to support data logging in ecology and environmental science
 
+cadal = sleep in Scotts Gaelic: ability to sleep very efficiently is a key feature
+
+logger: data logging
+
 ## Preamble
 
 This project aims to generate easy-to-use open-source hardware and software for data logging for ecology and environmental science field studies.  The goal is to produce hardware and software for arduino-like (and arduino-compatible) boards that bring together key elements needed for most data loggers, in arrangemets that support low-power field deployments.
