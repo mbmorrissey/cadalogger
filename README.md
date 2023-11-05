@@ -93,6 +93,12 @@ For cadalogger maxi
 Once set up, selecte Tools > Burn Bootloader.  A bootloader shoud be uploaded, and subsequent uploading of compiled sketches should be possible directly using a USB-serial 
 module and the 6-pin serial header pins.
 
+## Pinouts
+
+![mini pinout](/images/MINI_pinout.png)
+
+![maxi pinout](/images/MAXI_pinout.png)
+
 ## Library
 
 The library files (cadalogger.h and cadalogger.cpp) available in the `/src` directory of this repository can either be included in a folder titled `cadalogger` in your local `/Arduino/libraries/` directory, or can be included in the same directory and any sketch (i.e., `.ino` file in the Arduino IDE) that uses them.  They can then be included in a sketch in the usual way using `#include "cadalogger.h"` or '#include <cadalogger.h>'
