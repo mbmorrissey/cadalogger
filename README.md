@@ -271,7 +271,7 @@ Connections
 - 3xAA battery pack - to cadalogger GND
 - 4.7k resistor from DS18b20 signal (yellow) to 3.3
 - cadalogger 3.3V to DS18b20 red wire
-- cadalogger XX to DS18b20 yellow wire
+- cadalogger digital 19 (aka A7) to DS18b20 yellow wire
 - cadalogger GND to DS18b20 black wire
 - cadalogger 3.3V to JSN-SR04Tv3 5V
 - cadalogger GND to JSN-SR04Tv3 GND
