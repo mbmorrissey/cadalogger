@@ -42,7 +42,7 @@ If your board has a bootloader, you can skip to 'Cadalogger library'.
 
 The ATMega480X MCUs used in cadalogger boards are programmed over UPDI.  The boards have three pins for programming: ground, 3.3V and UPDI.
 
-[include images of both boards, highlighting programming headers]
+See pinouts (below) for locations of programming headers.
 
 An UPDI programmer is required for a new board.  SerialUPDI is the simplest and least expensive option.  See below for more as well as 
 [here](https://github.com/SpenceKonde/AVR-Guidance/blob/master/UPDI/jtag2updi.md).  A dedicated UPDI programmer is 
