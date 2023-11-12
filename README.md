@@ -225,26 +225,33 @@ The sketch `blink.ino` in the `/examples/` directory can be uploaded to a cadalo
 
 ### `set_time.ino`: getting the time onto the real time clock
 
+A critical aspect of almost any data logging system is time-keeping.  cadalogger boards include high-quality temperature-compensated real-time clocks (RTCs), and the library contains functions to use these components.  When first using a cadalogger board, it will probably be necessary to set the time on the RTC.  So long as a coin cell battery with a charge is maintained on the board, the time should be retained.  `set_time.ino` is a sketch that takes your computer's system time, and incorporates it into a sketch on compilation.  This time is then uploaded onto the RTC.
+
+However, you don't want the time that your code was compiled to be written to the RTC every time your logger starts up!  The solution in `set_time.ino` is that the sketch only writes the time to the RTC if digital pin 19 (A7 on the cadalogger mini board, A5 on the maxi board) is connected to ground.  Otherwise, the step of writing the time of compilation to the RTC is skipped.
+
+So, to set the time, you connect pin 19 to ground, and then compile and upload the sketch.  Open a serial console in the Arduino IDE, and the cadalogger's time will be scrolling by.  You can set the time back by entering 1, and set it forward by entering 2, in the serial console.  Depending on how long your upload has taken, you'll have to set the time forward from the time of compilation by about 10-20 seconds.
+
+After setting the time, remove the connection from digital pin 19 to ground, and the time should stay set, even when you upload a different program for whatever logging application your cadalogger board is destined to be used in.
 
 
 ### Sunshine: the 'Hello world!' of environmental data loggers
 
 A common tutorial to introduce collecting information from a sensor involves reading a light level using a light dependent resistor or a photodiode.  This example does the same, but introduces other data logging aspects, saving the light level data to a SD card with time stamps, and sleeping with very low power consumption betwen reads.
 
-Connections:
-- ...
-
-### Templogger: from 'sunshine', it isn't too far to other programs
-
-Here we swap out the sensor in the sunshine example for a DS18b20 waterproof temperature probe.
+The light sensing circut can be a simple voltage divider.  An approximately 2k resistor, in series with a TEPT5700 photodiode works well.  A similar circuit with a fixed value resistor and a light-dependent resistor will work well too.
 
 Connections:
-- ...
+- digital pin 22 to approx 2k resistor
+- 2k resistor to anode (long lead) of photodiode
+- cathode (short lead) of photodiode to ground
+- analog pin A0 to connection of resistor to photodiode
+
+This logger will record a reading from the light circuit in ADC units (a 10 bit value between 0 and 1023), along with the time (the correct time, if `set_time.ino` has been used before uploading `sunshine.ino` to the board
 
 
 ### Temperature logger with ultrasonic distance (river stage and temperature)
 
-This design adds a waterproof ultrasonic distance censor to log river water level, as well as water temperature.  The sketch is in the `/examples/` directory (direct link).  The logger wakes every ten minutes to take a series of readings from the distance sensor, of which ten are kept and averaged.  Time, distance to the water surface, and water temperature are written to the SD card.
+This design uses waterproof ultrasonic distance censor to log river water level, as well as water temperature; this is the logger featured briefly in the introductory video at the top of the page.  The sketch is in the `/examples/` directory.  The logger wakes every ten minutes to take a series of readings from the distance sensor, of which ten are kept and averaged.  Time, distance to the water surface, and water temperature are written to the SD card.
 
 Connections
 - 3xAA battery pack + to cadalogger Vin
@@ -255,24 +262,34 @@ Connections
 - cadalogger GND to DS18b20 black wire
 - cadalogger 3.3V to JSN-SR04Tv3 5V
 - cadalogger GND to JSN-SR04Tv3 GND
-- cadalogger TX to JSN-SR04Tv3 XX
-- cadalogger RX to JSN-SR04Tv3 XX
+- cadalogger TX to JSN-SR04Tv3 RX
+- cadalogger RX to JSN-SR04Tv3 TX
 
 ### Temperature logger with satellite data transmission
 
-This design returns to the simple scheme of only logging temperature. However, in addition to saving the temperature record, it transmits the data over the Iridium satellite network using a RockBlock 9603 modem.  A subscription to the satellite service is required (see here).
+This design returns to the simple scheme of only logging temperature. However, in addition to saving the temperature record, it transmits the data over the Iridium satellite network using a RockBlock 9602 modem.  A subscription to the satellite service is required (see [here](https://www.groundcontrol.com/en/)).
 
 The logger wakes every hour to record temperature, and saves 12 reads before each transmitting, thus transmitting a bulk data summary twice a day.
 
 What becomes of the messages depends on settings that can be arranged when you subscribe to the service.  In the video, we simply see the data being received by email.
 
-Messages up to 50 bytes have a fixed cost.
+This sketch does not transmit data very efficiently, in part because we were interested in transmitting frequently in order to get an idea of reliability.  Messages up to 50 bytes have a fixed cost, so for a longer-term deployment, we would probably pack at least 12 hourly measurements into each transmission, rather than transmitting approximately every hour. 
 
-The satellite modem is reasonably efficient (considering it is transmittign a message that can be detected in space!), but this design would be expected to last approximately X weeks on 3xAA batteries.  We have tested it with AAs for short periods, but suggest it would be most useful to deploy with higher capacity batteries, such as 3xD cells.
+The satellite modem is reasonably efficient (considering it is transmittign a message that can be detected in space!), but this design would be expected to last approximately X weeks on 3xAA batteries.  We have tested it with AAs for short periods, but suggest it would be most useful to deploy with higher capacity batteries, such as 3xD cells (as in the video).
 
-### An RS232 sensor and solar power
+We used a [RockBlock 9602 Iridium satellite modem](https://www.groundcontrol.com/en/product/rockblock-9602-satellite-modem/) for this example.  This was a bit of a mistake, becuase the 9602 version needs a 5V power supply, while we could have used the [RoclBlock 9603 modem](https://www.groundcontrol.com/en/product/rockblock-9603/) and powered it directly of the 3xAA or 3xDD battery pack.  Consequentially, we needed an extra device: a step-up voltage regulator to provide 5V.  We happened to have an [Adafruit 5V TPS61023 boost converter](https://www.adafruit.com/product/4654) to hand, so we used it.
 
-A major design goal for cadalogger is to make it plausible to power long-term data logging deployments off of inexpensive and easy to obtain batteries.  However, sometimes we may wish to operate sensors that require enough power that some kind of topping up may be necessary.  In this example, a WindSonic (TM) ultrasonic anemometer is operated using a cadalogger board...
+Connections
+- 3xDD positive to cadalogger power supply pin
+- 3xDD positive to Vin on 5V regulator
+- 3.3V output from cadalogger to Vin of waterproof DS18b20
+- cadalogger mini D6 to data (yellow) of waterproof DS18b20
+- 4.7k pullup resistor from DS18b20 data to 3.3V
+- TX2 on cadalogger mini to modem RX
+- RX2 on cadalogger mini to modem TX
+- cadalogger pin D7 (aka SS) to modem sleep control
+- 5V output from regulator to model power supply
+- connect all grounds (battery, cadalogger, 5V regulator, DS18b20, modem)
 
 
 ## Contact
