@@ -14,6 +14,8 @@ Here is a video introducing the cadalogger project.  We're hoping to develop bet
 [![A quick intro to cadalogger](https://img.youtube.com/vi/7qkBjCcAluY/0.jpg)](https://youtu.be/G2LDQLVE-7E)
 
 
+We have two variants, the one featured in the video uses very efficient components, many of which are only available in very small surface mount components.  It can be hand-assembled (the ones in the video are), but that version is hopefully on track to be assembled commercially.  We also have a version that is easier to assemble by hand (see diagrams below).  It isn't quite as efficient, though it is still nearly equally effective as a data logging platform in practical terms.  We currently refer to these (including in code in our software library) as the 'mini' and 'maxi' versions.  We are not entirely happy with these; they might become 'lamb' and 'calf' with corresponding images via silk screen on the circuit boards...feedback on this is welcome!
+
 ## Contents
 - [preamble with introductory video](#preamble)
 - [programming information](#programming)
