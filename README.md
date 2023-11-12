@@ -254,7 +254,7 @@ A very basic temperature logger.  It reads very frequently (every ten seconds), 
 
 There are lots of DS18b20 arduino examples on the internet.  This one is a little bit different becuase it de-powers the sensor.  This requires grounding both the power and data pins durign sleep.  Very low power operation, and substantial logger longevity on small battery packs, can be achieved without going quite to this extreme, but it helps to highlight the extent of low power operation achievable with cadalogger boards.
 
-To use the DS18b20 sensor with MegaCoreX, a slight modification of the OneWire library is required.  Once OneWire is installed, navigate to your /Arduino/libraries/OneWire/utils/ directory and open the file OneWire_direct_gpio.h.  The 18th line will read #if defined(__AVR_ATmega4809__)  Modify it to read #if defined(__AVR_ATmega4809__) || defined(MEGACOREX)  Now the standard DS18b20 library will be able to work.  In future will will figure out how to integrate more seemlesly with the OneWire library.
+To use the DS18b20 sensor with MegaCoreX, a slight modification of the OneWire library is required.  Once OneWire is installed, navigate to your /Arduino/libraries/OneWire/utils/ directory and open the file OneWire_direct_gpio.h.  The 18th line will read '#if defined(__AVR_ATmega4809__)'  Modify it to read '#if defined(__AVR_ATmega4809__) || defined(MEGACOREX)'  Now the standard DS18b20 library will be able to work.  In future will will figure out how to integrate more seemlesly with the OneWire library.
 
 Connections:
 - digital pin 4 to DS18b20 power
