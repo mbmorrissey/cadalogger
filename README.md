@@ -99,7 +99,7 @@ module and the 6-pin serial header pins.
 
 ## Pinouts
 
-Pinout for the main cadalogger board:
+Pinout for the main cadalogger board (not shown: most uses will require a 3V coin cell; a coin cell clip can be soldered to pads on the back fo the 'mini' board variant):
 
 <img src="/images/MINI_pinout.png" width="400" height="400">
 
