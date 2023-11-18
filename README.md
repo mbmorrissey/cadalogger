@@ -202,10 +202,10 @@ void write_time_to_rtc();
 
 ### Software (cadalogger library and board definition) development
 
-- cadalogger functions include very little error and exception handling; most functions return `void` rather than useful indicators of success or errors
-- many things are hard-coded that should be flexible or more flexible.  For e.g., some aspects of wake/sleep cycles and watchdog timer
+- cadalogger functions include very little error and exception handling; most functions current return `void` rather than useful indicators of success, warnings, or errors
+- many things are hard-coded that should be flexible or at least more flexible.  For e.g., some aspects of wake/sleep cycles and watchdog timer
 - cadalogger library functionality works in ways that make sense to @mbmorrissey and @rebebba; how much they are intuitive to others, and how to make them intuitive, will result from consultation with experts in open source materials and from feedback from diverse users
-- possible specific changes to library too numerous to consider, but for e.g., many things are hard-coded that should be flexible or more flexible, incl. some aspects of wake/sleep cycles and watchdog timer.  Another example is handling of date-time information
+- possible specific changes to library too numerous to fully enumerate, but for e.g., many things are hard-coded that should be flexible or more flexible, incl. some aspects of wake/sleep cycles and watchdog timer.  Another example is handling of date-time information
 - decision needs to be made about accommodating fuller functionality of RTCs via the cadalogger library vs whether full functionality should be exposed via libraries; if so, need to determine if we are satisfied with existing libraries
 - future development will generate a formal arduino board definition in order to simplify initial set-up
 
@@ -219,7 +219,7 @@ void write_time_to_rtc();
 
 See the `/examples/` directory for code for each example.  Here is some further context for each.
 
-*Please note that most of these examples are not extensively field tested.  They are not intended as advice as to what designs will work well and generate valid data.  These examples are intended to be instructive about how cadaloggers might be deployed to various uses.  We still need to embark on a major effort to assess what kinds of deployments are reliable, and where problems can arise.  We also make no guarantee that data collected in any of these examples will be fit for any specific purpose.  Use-specific validation is required for any application based on these examples.*
+*Please note that most of these examples are not yet extensively field tested.  They are not intended as advice as to what designs will work well and generate valid data.  These examples are intended to be instructive about how cadaloggers might be deployed to various uses.  We still need to embark on a major effort to assess what kinds of deployments are reliable, and where problems can arise.  We also make no guarantee that data collected in any of these examples will be fit for any specific purpose.  Use-specific validation is required for any application based on these examples.*
 
 ### Blink: the 'Hello world!' of microcontrollers
 
