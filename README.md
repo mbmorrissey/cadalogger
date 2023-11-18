@@ -29,14 +29,14 @@ We have two variants, the one featured in the video uses very efficient componen
 
 ### MegacoreX
 
-All examples here use an open source arduino core for the family of MCUs that cadalogger boards use, MegacoreX by MCUDude.  Roughly, the purpose arduino core is to translate standard arduino functions into the specific bits of underlying code necessary for a given microcontroller to understand.
+All examples here use an open source arduino core for the family of MCUs that cadalogger boards use: MegaCoreX by MCUDude.  Roughly, the purpose of the arduino core is to translate standard arduino functions into the specific bits of underlying code necessary for a given microcontroller to understand.
 
 MCUDude provides comprehensive information on using MegacoreX.  Here we provide an overview to get started with cadalogger boards.
 
 In the Arduion IDE, go to  'Arduino IDE' -> 'Preferences...'.  Then in the 'Additional board manager URLs' filed, add 
 https://mcudude.github.io/MegaCoreX/package_MCUdude_MegaCoreX_index.json .  If you already have, or subsequently add, other URLs, they can just be separated with commas.
 
-An option of 'MegaCoreX' should then appear under 'Tools' -> 'Board'.  Within the 'MegaCoreX' options, select ATmega4808 if using the cadalogger lamb version, or 'ATmega4809' if using the cadalogger ram version.  After selecting the appropriate MCU option, go back to 'Tools' -> 'Pinout', and ensure that '32 pin standard' is selected if using the lamb version or '40 pin standard' if using the ram version.
+An option of 'MegaCoreX' should then appear under 'Tools' -> 'Board'.  Within the 'MegaCoreX' options, select ATmega4808 if using the cadalogger mini version, or 'ATmega4809' if using the cadalogger maxi (optimised for hand-assembly; details below) version.  After selecting the appropriate MCU option, go back to 'Tools' -> 'Pinout', and ensure that '32 pin standard' is selected if using the lamb version or '40 pin standard' if using the ram version.
 
 If your board has a bootloader, you can skip to 'Cadalogger library'.
 
