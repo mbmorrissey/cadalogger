@@ -13,9 +13,6 @@ This project aims to generate easy-to-use open-source hardware and software for 
 - [preamble](#preamble)
 - [programming information](#programming)
 - [library and functions](#library)
-- [ongoing development questions](#development)
-- [examples](#examples)
-- [do you want to try?](#contact)
 
 
 ## Programming
