@@ -117,9 +117,14 @@ The library files (cadalogger.h and cadalogger.cpp) available in the `/src` dire
 
 `void sleepFor(int seconds)`
 
+- will sleep for specified number of seconds, waking every 5 seconds to flash the onboard LED and to perform a watchdog timer reset
+
 `byte wakeOnSecondMultiple(int s)`
 
-`byte wakeOnMinuteMultiple(int s)`
+- will sleep sleep until a multiple of s seconds is reached
+- for example, if invoked at 14:43:22, with `s=10`, the logger will wake and continue the sketch at the next multiple of 10s, or at 14:43:30
+- wake times are precise relative to the time on the RTC for the 'mickey' board, becuase it's RTC has a 'wake on second alarm'
+- modest (< +/- 2s) errors in the wake up time on 'mini' boards currently occur.
 
 
 `void enable_watchdog()`
@@ -142,6 +147,8 @@ void write_time_to_rtc();
 
 `float supply_voltage()`
 
+- returns the voltage on the Vin pin
+
 ### Cadalogger public variables
 
 `cadalogger::time`
@@ -151,128 +158,4 @@ void write_time_to_rtc();
 `cadalogger::SD`
 
 - an instance of SD from library SdFat
-
-
-## Development
-
-### Hardware development
-
-- MCU choice: the `CADALOGGERMINI` board version uses the ATMega4808 and the CADALOGGERMAXI uses the ATMega4809.  The 4808 comes in a more convenient package for surface mount hand-assembly, while the 4809 is the only MCU in the family that comes in a surface mount package.  With a shift to automated assembly of the MINI board, we may consider changing it to using a surface mount version of the ATMega 4809 MCU.  This should cause few changes to usage, but some improvements.  For example, the built in LED pin could be made consistent between board versions, allowing the defintion of LED_BUILTIN so the standard blink sketch runs correctly, and likely other such useful minor streamlining.
-- protection: the boards currently do not have reverse polarity (i.e., guards against attaching a battery backwards) or over-current protection.  The design appears to be proving to be fairly robust.  Adding these protections would have drawbacks including some combination of extra components (more cost and space), less efficient voltage regulator (i.e., higher sleeping current).  However, with a greater range of field testing experience, we think this decision should be revisited in the future.
-- USB connectivity: the boards are programmed over USB via a USB to serial converter module.  Many such modules are on the market.  We expect many uses of cadalogger boards to involve deployments of multiple boards, and so a typical user will save money by not having the cost of a USB-serial converter on every board.  Such a converter could be added, but would come at a financial cost, plus a use of space and power.
-- storage media: cadalogger is primarily conceived for logging to SD card, but as efficiently as possible.  There could be a greater role for alternative storage media, such as FRAM (for which there is provision for optional addition to the back of the `CADALOGGERMINI` board).  SD cards are generaly robust and reliable, and existing arduino libraries allow them to be used with a file system that allows data to be written in familiar formats and easily shifted to a computer for import into spreadsheets, R, python, etc.  However, FRAM is probably more robust, and is likely to be necessary in very low temperature environments.  We suspect that the use of FRAM as an option is appropriate, but with more field testing and feedback from a wide range of users, we intend to revisit this decision in the future.
-- alternate versions and expansion boards:  cadalogger is a logging platform, not a specific logger.  However, as different use cases arise with the repeated need for different peripherals we will consider alternate board versions for specific purposes.  More likely, facilitation of specific use cases can be accommodated with expansion boards.
-
-### Software (cadalogger library and board definition) development
-
-- cadalogger functions include very little error and exception handling; most functions current return `void` rather than useful indicators of success, warnings, or errors
-- many things are hard-coded that should be flexible or at least more flexible.  For e.g., some aspects of wake/sleep cycles and watchdog timer
-- cadalogger library functionality works in ways that make sense to @mbmorrissey and @rebebba; how much they are intuitive to others, and how to make them intuitive, will result from consultation with experts in open source materials and from feedback from diverse users
-- possible specific changes to library too numerous to fully enumerate, but for e.g., many things are hard-coded that should be flexible or more flexible, incl. some aspects of wake/sleep cycles and watchdog timer.  Another example is handling of date-time information
-- decision needs to be made about accommodating fuller functionality of RTCs via the cadalogger library vs whether full functionality should be exposed via libraries; if so, need to determine if we are satisfied with existing libraries
-- future development will generate a formal arduino board definition in order to simplify initial set-up
-
-### Example bank development
-
-- we are slowly developing a set of examples.  We are seeking examples contributed from others to increase the diversity of cases and their presentation
-- we would like to develop more extensive examples including code and hardware descriptions
-- we would also like to build up more extensive case study examples, including comparisons to existing or alternate types of installations, detailed ground-truthing and callibration, and accounting for costs very broadly, including human effort
-
-## Examples
-
-See the `/examples/` directory for code for each example.  Here is some further context for each.
-
-*Please note that most of these examples are not yet extensively field tested.  They are not intended as advice as to what designs will work well and generate valid data.  These examples are intended to be instructive about how cadaloggers might be deployed to various uses.  We still need to embark on a major effort to assess what kinds of deployments are reliable, and where problems can arise.  We also make no guarantee that data collected in any of these examples will be fit for any specific purpose.  Use-specific validation is required for any application based on these examples.*
-
-### Blink: the 'Hello world!' of microcontrollers
-
-The sketch `blink.ino` in the `/examples/` directory can be uploaded to a cadalogger board using the directions for programming above.  This sketch is designed to be as similar as possible to blink on any other arduino-compatible microcontroller board.  `flash.ino` is a blink equivalent that uses the cadalogger libraries functions for manipulating the on-board LED in a more energy efficient way.
-
-### `set_time.ino`: getting the time onto the real time clock
-
-A critical aspect of almost any data logging system is time-keeping.  cadalogger boards include high-quality temperature-compensated real-time clocks (RTCs), and the library contains functions to use these components.  When first using a cadalogger board, it will probably be necessary to set the time on the RTC.  So long as a coin cell battery with a charge is maintained on the board, the time should be retained.  `set_time.ino` is a sketch that takes your computer's system time, and incorporates it into a sketch on compilation.  This time is then uploaded onto the RTC.
-
-However, you don't want the time that your code was compiled to be written to the RTC every time your logger starts up!  The solution in `set_time.ino` is that the sketch only writes the time to the RTC if digital pin 19 (A7 on the cadalogger mini board, A5 on the maxi board) is connected to ground.  Otherwise, the step of writing the time of compilation to the RTC is skipped.
-
-So, to set the time, you connect pin 19 to ground, and then compile and upload the sketch.  Open a serial console in the Arduino IDE, and the cadalogger's time will be scrolling by.  You can set the time back by entering 1, and set it forward by entering 2, in the serial console.  Depending on how long your upload has taken, you'll have to set the time forward from the time of compilation by about 10-20 seconds.
-
-After setting the time, remove the connection from digital pin 19 to ground, and the time should stay set, even when you upload a different program for whatever logging application your cadalogger board is destined to be used in.
-
-
-### Sunshine: the 'Hello world!' of environmental data loggers
-
-A common tutorial to introduce collecting information from a sensor involves reading a light level using a light dependent resistor or a photodiode.  This example does the same, but introduces other data logging aspects, saving the light level data to a SD card with time stamps, and sleeping with very low power consumption betwen reads.
-
-The light sensing circut can be a simple voltage divider.  An approximately 2k resistor, in series with a TEPT5700 photodiode works well.  A similar circuit with a fixed value resistor and a light-dependent resistor will work well too.
-
-Connections:
-- digital pin 22 to approx 2k resistor
-- 2k resistor to anode (long lead) of photodiode
-- cathode (short lead) of photodiode to ground
-- analog pin A0 to connection of resistor to photodiode
-
-This logger will record a reading from the light circuit in ADC units (a 10 bit value between 0 and 1023), along with the time (the correct time, if `set_time.ino` has been used before uploading `sunshine.ino` to the board
-
-### Temperature logger 
-
-A very basic temperature logger.  It reads very frequently (every ten seconds), and does a data write for every read.  This isn't very efficient relative to duty cycles that would be sensible for most real logging applications, but it made the example in the introductory video less boring!
-
-There are lots of DS18b20 arduino examples on the internet.  This one is a little bit different becuase it de-powers the sensor.  This requires grounding both the power and data pins durign sleep.  Very low power operation, and substantial logger longevity on small battery packs, can be achieved without going quite to this extreme, but it helps to highlight the extent of low power operation achievable with cadalogger boards.
-
-To use the DS18b20 sensor with MegaCoreX, a slight modification of the OneWire library is required.  Once OneWire is installed, navigate to your /Arduino/libraries/OneWire/utils/ directory and open the file OneWire_direct_gpio.h.  The 18th line will read `#if defined(__AVR_ATmega4809__)`  Modify it to read `#if defined(__AVR_ATmega4809__) || defined(MEGACOREX)`  Now the standard DS18b20 library will be able to work.  In future will will figure out how to integrate more seemlesly with the OneWire library.
-
-Connections:
-- digital pin 4 to DS18b20 power
-- digital pin 19 to DS19b30 data
-- 4.7k pullup resistor between DS18b20 data and power
-
-
-### Temperature logger with ultrasonic distance (river stage and temperature)
-
-This design uses waterproof ultrasonic distance censor to log river water level, as well as water temperature; this is the logger featured briefly in the introductory video at the top of the page.  The sketch is in the `/examples/` directory.  The logger wakes every ten minutes to take a series of readings from the distance sensor, of which ten are kept and averaged.  Time, distance to the water surface, and water temperature are written to the SD card.
-
-Connections
-- 3xAA battery pack + to cadalogger Vin
-- 3xAA battery pack - to cadalogger GND
-- 4.7k resistor from DS18b20 signal (yellow) to 3.3
-- cadalogger 3.3V to DS18b20 red wire
-- cadalogger digital 19 (aka A7) to DS18b20 yellow wire
-- cadalogger GND to DS18b20 black wire
-- cadalogger 3.3V to JSN-SR04Tv3 5V
-- cadalogger GND to JSN-SR04Tv3 GND
-- cadalogger TX to JSN-SR04Tv3 RX
-- cadalogger RX to JSN-SR04Tv3 TX
-
-### Temperature logger with satellite data transmission
-
-This design returns to the simple scheme of only logging temperature. However, in addition to saving the temperature record, it transmits the data over the Iridium satellite network using a RockBlock 9602 modem.  A subscription to the satellite service is required (see [here](https://www.groundcontrol.com/en/)).
-
-The logger wakes every hour to record temperature, and saves 12 reads before each transmitting, thus transmitting a bulk data summary twice a day.
-
-What becomes of the messages depends on settings that can be arranged when you subscribe to the service.  In the video, we simply see the data being received by email.
-
-This sketch does not transmit data very efficiently, in part because we were interested in transmitting frequently in order to get an idea of reliability.  Messages up to 50 bytes have a fixed cost, so for a longer-term deployment, we would probably pack at least 12 hourly measurements into each transmission, rather than transmitting approximately every hour. 
-
-The satellite modem is reasonably efficient (considering it is transmitting a message that can be detected in space!), but this design would be expected to last approximately X weeks on 3xAA batteries.  We have tested it with AAs for short periods, but suggest it would be most useful to deploy with higher capacity batteries, such as 3xD cells (as in the video).
-
-We used a [RockBlock 9602 Iridium satellite modem](https://www.groundcontrol.com/en/product/rockblock-9602-satellite-modem/) for this example.  This was a bit of a mistake, becuase the 9602 version needs a 5V power supply, while we could have used the [RoclBlock 9603 modem](https://www.groundcontrol.com/en/product/rockblock-9603/) and powered it directly of the 3xAA or 3xDD battery pack.  Consequentially, we needed an extra device: a step-up voltage regulator to provide 5V.  We happened to have an [Adafruit 5V TPS61023 boost converter](https://www.adafruit.com/product/4654) to hand, so we used it.
-
-Connections
-- 3xDD positive to cadalogger power supply pin
-- 3xDD positive to Vin on 5V regulator
-- 3.3V output from cadalogger to Vin of waterproof DS18b20
-- cadalogger mini D6 to data (yellow) of waterproof DS18b20
-- 4.7k pullup resistor from DS18b20 data to 3.3V
-- TX2 on cadalogger mini to modem RX
-- RX2 on cadalogger mini to modem TX
-- cadalogger pin D7 (aka SS) to modem sleep control
-- 5V output from regulator to model power supply
-- connect all grounds (battery, cadalogger, 5V regulator, DS18b20, modem)
-
-
-## Contact
-
-We have some, but presently limited, ability to provide prepared cadalogger boards.  We will try to help out anyone who is interested in using or testing!  If we cannot provide an assembled board, we can provide guidance on navigating the full open-source documentation provided here (e.g., see `/hardware/` drectory for schematics, gerbers, and BOM to build your own.  Please get in touch via [Michael](mailto:mbm5@st-andrews.ac.uk) or [Rebecca](mailto:rn71@st-andrews.ac.uk).
-
-
 
