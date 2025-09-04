@@ -9,15 +9,8 @@ logger: data logging
 
 This project aims to generate easy-to-use open-source hardware and software for data logging for ecology and environmental science field studies.  The goal is to produce hardware and software for arduino-like (and arduino-compatible) boards that bring together key elements needed for most data loggers, in arrangemets that support low-power field deployments.
 
-Here is a video introducing the cadalogger project.  We're hoping to develop better documentation, including videos with better production quality, over the next few years!
-
-[![A quick intro to cadalogger](https://img.youtube.com/vi/7qkBjCcAluY/0.jpg)](https://youtu.be/G2LDQLVE-7E)
-
-
-We have two variants, the one featured in the video uses very efficient components, many of which are only available in very small surface mount components.  It can be hand-assembled (the ones in the video are), but that version is hopefully on track to be assembled commercially.  We also have a version that is easier to assemble by hand (see diagrams below).  It isn't quite as efficient, though it is still nearly equally effective as a data logging platform in practical terms.  We currently refer to these (including in code in our software library) as the 'mini' and 'maxi' versions.  We are not entirely happy with these designations; they might become 'lamb' and 'calf' with corresponding images via silk screen on the circuit boards...feedback on this is welcome!
-
 ## Contents
-- [preamble with introductory video](#preamble)
+- [preamble](#preamble)
 - [programming information](#programming)
 - [library and functions](#library)
 - [ongoing development questions](#development)
@@ -36,41 +29,13 @@ MCUDude provides comprehensive information on using MegacoreX.  Here we provide 
 In the Arduion IDE, go to  'Arduino IDE' -> 'Preferences...'.  Then in the 'Additional board manager URLs' filed, add 
 https://mcudude.github.io/MegaCoreX/package_MCUdude_MegaCoreX_index.json .  If you already have, or subsequently add, other URLs, they can just be separated with commas.
 
-An option of 'MegaCoreX' should then appear under 'Tools' -> 'Board'.  Within the 'MegaCoreX' options, select ATmega4808 if using the cadalogger mini version, or 'ATmega4809' if using the cadalogger maxi (optimised for hand-assembly; details below) version.  After selecting the appropriate MCU option, go back to 'Tools' -> 'Pinout', and ensure that '32 pin standard' is selected if using the lamb version or '40 pin standard' if using the ram version.
+An option of 'MegaCoreX' should then appear under 'Tools' -> 'Board'.  Within the 'MegaCoreX' options, select ATmega4809 if using the cadalogger mini version, or 'ATmega4809' if using the cadalogger maxi (optimised for hand-assembly; details below) version.  After selecting the 'ATmega4809' MCU option, go back to 'Tools' -> 'Pinout', and ensure that '48 pin standard' is selected if using the mini version or '40 pin standard' if using the mickey version.  Select 'Tools' -> 'Clock' -> 'Internal 4 MHz'.  Other settings should be as default: 'Tools' -> 'BOD' -> 'BOD 2.6V', 'Tools' -> 'EEPROM' -> 'EEPROM retained', 'Tools' -> 'Reset pin' -> 'Reset', 'Tools' -> 'Bootloader' -> 'Optiboot (UART0 default pins)', and 'Tools' -> 'Programmer' -> 'Serial UPDI (57600 baud)'.
 
 If your board has a bootloader, you can skip to 'Cadalogger library'.
 
 ### Programming
 
-The ATMega480X MCUs used in cadalogger boards are programmed over UPDI.  The boards have three pins for programming: ground, 3.3V and UPDI.
-
-See pinouts (below) for locations of programming headers.
-
-An UPDI programmer is required for a new board.  SerialUPDI is the simplest and least expensive option.  See below for more as well as 
-[here](https://github.com/SpenceKonde/AVR-Guidance/blob/master/UPDI/jtag2updi.md).  A dedicated UPDI programmer is 
-also a good option, see [here](https://github.com/MCUdude/microUPDI).  Unless we have supplied you with an example 
-board, and said that we have uploaded a bootloader, you'll have to do so.
-
-Once a bootloader is uploaded, you will need to connect a USB-serial adapter to the cadalogger's 6-pin programming header, and select the following settings in the Arduino 
-IDE:
-
-For cadalogger mini
-- Tools > Board > MegaCoreX > ATMega4808
-- Tools > Port > as appropriate for your USB-serial adapter
-- Tools > Bootloader > Optiboot (UART0 default pins)
-- Tools > Clock > Internal 4 MHz
-- Tools > Pinout > 32 pin standard
-- Tools > Reset pin > reset
-
-For cadalogger maxi
-- Tools > Board > MegaCoreX > ATMega4809
-- Tools > Port > as appropriate for your USB-serial adapter
-- Tools > Bootloader > Optiboot (UART0 default pins)
-- Tools > Clock > Internal 4 MHz
-- Tools > Pinout > 48 pin standard
-- Tools > Reset pin > reset
-
-Once these settings are in place, you should be able to upload using the upload button near the top left of any sketch's window in the IDE, or using Sketch > Upload, or 
+If your board has been provided with a bootloader pre-burned, then programming will typically be done using a USB to Serial adapter.  A 3.3V model is required.  Cadalogger boards have been tested with several.  We have used the [Sparkfun basic FTDI breakout](https://www.sparkfun.com/sparkfun-ftdi-basic-breakout-3-3v.html) with success (also available [here](https://thepihut.com/products/sparkfun-ftdi-basic-breakout-3-3v), [here](https://cpc.farnell.com/sparkfun-electronics/dev-09873/ftdi-basic-breakout-33v/dp/MK00666) and elsewhere).  Connect the USB-serial adapter to the six pin headers on the cadalogger, and connect it to your computer with an appropriate USB cable.  The adapter should appear in the Arduino IDE as a new entry under 'Tools' -> 'Port'; once selected, sketches can be uploaded to the cadalogger board using the upload button.
 
 ### Uploading a bootloader
 
@@ -80,20 +45,11 @@ Using a SerialUPDI adapter, see above, you will want to set up as follows
 
 - SerialUPDI connector inserted between USB-serial converter module, and conected to GND, V and UPDI on cadalogger board
 
-For cadalogger lamb
-- Tools > Board > MegaCoreX > ATMega4808
-- Tools > Port > as appropriate for your USB-serial adapter
-- Tools > Bootloader > Optiboot (UART0 default pins)
-- Tools > Clock > Internal 4 MHz
-- Tools > Pinout > 32 pin standard
-- Tools > Reset pin > reset
-
-For cadalogger ram
 - Tools > Board > MegaCoreX > ATMega4809
 - Tools > Port > as appropriate for your USB-serial adapter
 - Tools > Bootloader > Optiboot (UART0 default pins)
 - Tools > Clock > Internal 4 MHz
-- Tools > Pinout > 48 pin standard
+- Tools > Pinout > 48 pin standard for a mini board and 40 pin standard for a mickey board
 - Tools > Reset pin > reset
 
 Once set up, selecte Tools > Burn Bootloader.  A bootloader shoud be uploaded, and subsequent uploading of compiled sketches should be possible directly using a USB-serial 
@@ -101,13 +57,7 @@ module and the 6-pin serial header pins.
 
 ## Pinouts
 
-Pinout for the main cadalogger board (not shown: most uses will require a 3V coin cell; a coin cell clip can be soldered to pads on the back fo the 'mini' board variant):
-
 <img src="/images/MINI_pinout.png" width="400" height="400">
-
-Pinout for the board variant optimised for hand assembly:
-
-<img src="/images/MAXI_pinout.png" width="500" height="620">
 
 ## Library
 
