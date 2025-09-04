@@ -57,7 +57,7 @@ module and the 6-pin serial header pins.
 
 ## Pinouts
 
-<img src="/images/MINI_pinout.png" width="400" height="400">
+<img src="/images/pinouts.png" width="400" height="400">
 
 ## Library
 
@@ -70,11 +70,10 @@ The library files (cadalogger.h and cadalogger.cpp) available in the `/src` dire
 `cadalogger(byte boardVersion)`
 
 - constructor
-- `boardVersion=CADALOGGERMINI` for small surface mount board
-- `boardVersion=CADALOGGERMAXI` for hand-assembled largely through hole version
+- `boardVersion=0` for small surface mount board ('mini')
+- `boardVersion=1` for hand-assembled largely through hole version ('mickey')
 
 `void initialise()`
-`void initialise(int heartbeat)`
 
 - initialise with or without heartbeat
 - sets pin states to minimise power loss, sets up RTC
