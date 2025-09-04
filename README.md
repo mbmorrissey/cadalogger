@@ -57,7 +57,7 @@ module and the 6-pin serial header pins.
 
 ## Pinouts
 
-<img src="/images/pinouts.png" width="400" height="400">
+<img src="/images/pinouts.png" width="800" height="600">
 
 ## Library
 
