@@ -6,9 +6,9 @@
 #include "build_defs.h"
 
 File file;
+char df[80];
 
-cadalogger timelogger(CADALOGGERMINI);
-// cadalogger timelogger(CADALOGGERMAXI);  // change to this for through-hole board
+cadalogger timelogger(0);
 
 long last_msg = 0;
 
@@ -26,9 +26,9 @@ void setup() {
   delay(100);
   timelogger.initialise();
 
-  pinMode(19, INPUT_PULLUP);   // that's A7 on 32 pin 4808
+  pinMode(A7, INPUT_PULLUP);   
 
-  if(digitalRead(19)==0){
+  if(digitalRead(A7)==0){
     timelogger.time[0] = ((int)BUILD_SEC_CH0 - '0')*10+((int)BUILD_SEC_CH1 - '0');
     timelogger.time[1] = ((int)BUILD_MIN_CH0 - '0')*10+((int)BUILD_MIN_CH1 - '0');
     timelogger.time[2] = ((int)BUILD_HOUR_CH0 - '0')*10+((int)BUILD_HOUR_CH1 - '0');
@@ -42,48 +42,61 @@ void setup() {
   
   Serial.begin(9600);
   Serial.println("1: decrease seconds, 2: increase seconds (press enter)");
+
+  bool done = false;
+
+  while (done==false){
+
+    // keep up an output of the current time according to the RTC
+    if(millis() > last_msg+1000){
+      timelogger.update_time();
+      print_time(); Serial.println();
+      Serial.flush();
+      last_msg = millis();
+    }
+
+    // increment seconds or minutes, taking care not to make values
+    // greater than 59 or less than zero.  Seconds increment by two
+    // because a second or so is likely to pass in any event whn
+    // incrementing forward
+    if(Serial.available()){
+      char rec = Serial.read();
+      timelogger.update_time();
+      switch(rec){
+        case '1':
+          if(timelogger.time[0]>0){
+            timelogger.time[0]=timelogger.time[0]-1;
+          }
+          break;
+        case '2':
+          if(timelogger.time[0]<57){
+            timelogger.time[0]+=2;
+          }
+          break;
+        case '3':
+          if(timelogger.time[1]>0){
+             timelogger.time[1]=timelogger.time[1]-1;
+          }
+          break;
+        case '4':
+          if(timelogger.time[1]<58){
+            timelogger.time[1]++;
+          }
+          break;
+        case '0':
+          done = true;
+          break;
+      }
+      timelogger.write_time_to_rtc();
+    }
+ 
+  }
+
 }
 
 void loop() {
-  
-  // keep up an output of the current time according to the RTC
-  if(millis() > last_msg+1000){
-    timelogger.update_time();
-    print_time(); Serial.println();
-    Serial.flush();
-    last_msg = millis();
-  }
 
-  // increment seconds or minutes, taking care not to make values
-  // greater than 59 or less than zero.  Seconds increment by two
-  // because a second or so is likely to pass in any event whn
-  // incrementing forward
-  if(Serial.available()){
-    char rec = Serial.read();
-    timelogger.update_time();
-    switch(rec){
-      case '1':
-        if(timelogger.time[0]>0){
-          timelogger.time[0]=timelogger.time[0]-1;
-        }
-        break;
-      case '2':
-        if(timelogger.time[0]<57){
-          timelogger.time[0]+=2;
-        }
-        break;
-      case '3':
-        if(timelogger.time[1]>0){
-           timelogger.time[1]=timelogger.time[1]-1;
-        }
-        break;
-      case '4':
-        if(timelogger.time[1]<58){
-          timelogger.time[1]++;
-        }
-        break;
-    }
-    timelogger.write_time_to_rtc();
-  }
-  
+  timelogger.sleepFor(5);
+  timelogger.flash(2);
+
 }
