@@ -178,6 +178,8 @@ Assuming a usable capacity of 2000 mAh in a battery pack of series AA batteries 
 
 If the logger's duty cycle was adjusted to generate one record every five minutes, current consumption would be 4.3 mA on average over the same period of 7.7 seconds required to make a record and write it to the SD card.  Current consumption would be an average of 24 uA over teh remaining 5 m * 60 s/m - 7.7s = 192.3 s or 97.4% of the duty cycle.  Mean current consumption over the duty cycle would be 4300 uA * 0.026 + 24 uA * 0.974 = 135 uA.  Theoretical longevity on a series AA battery pack would be 616 days.
 
+The logger was deployed on the Kenley Water, near Boarhills, Fife, Scotland.  Six manual measurements of stream depth (taken from a consistent location on an identifiable section of beadrock) were taken between 30 September 2025 and 5 October 2025. These were related to sensor-to-water surface distance measures, averaging data logger records from two minutes prior to two minutes after each manual measurement.  The calibration curve has a slope of -1.054 and an $r^2$ of 0.9986.
+
 
 
 
