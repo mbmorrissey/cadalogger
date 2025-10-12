@@ -169,6 +169,15 @@ This project uses a [maxbotix ultrasonic distance sensor](https://maxbotix.com/p
 
 On the maxbotix distance sensor, the 3.3V power supply is pin 6 and ground is pin 7.  The sensor transmits TTL/UART output on its pin 5.  On the logger end, the sensors Tx output is connected to Rx2, and the power switch is controlled by pin A0.
 
+![stream_stage_power_profile](https://github.com/mbmorrissey/cadalogger/blob/main/images/stream_stage_power_profile.png?raw=true)
+*Power profile for stream_stage logger*
+
+Current consumption is 14 uA at rest (e.g., red section), but including blinks each time the sleep function wakes to reset the watchdog timer (e.g., green section), sleep current sonsumption is about 24 uA.  On waking, collecting 10 readings from the distance sensor, and writing the mean of the 8 middle readigns to the SD card (i.e., blue section) current consumption is on average about 4.3 mA, with a peak during the uSD card write of about 120 mA.  Average current consumption across the whole duty cycle (in this example of one data record per minute) is 572 uA.
+
+Assuming a usable capacity of 2000 mAh in a battery pack of series AA batteries (3 series AAs in this case), the longevity of the logger would be 2000 mAh / 0.572 mA / 24 = 145 days or 4 to 5 months.  n.b., quality AA batteries are typically rated for somewhat more than 2000 mAh, but under field conditions of fluctuating temperature, etc., I find this calculation instructive.
+
+If the logger's duty cycle was adjusted to generate one record every five minutes, current consumption would be 4.3 mA on average over the same period of 7.7 seconds required to make a record and write it to the SD card.  Current consumption would be an average of 24 uA over teh remaining 5 m * 60 s/m - 7.7s = 192.3 s or 97.4% of the duty cycle.  Mean current consumption over the duty cycle would be 4300 uA * 0.026 + 24 uA * 0.974 = 135 uA.  Theoretical longevity on a series AA battery pack would be 616 days.
+
 
 
 
