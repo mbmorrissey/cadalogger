@@ -29,7 +29,7 @@ void write_time(){
 
 void setup() {
   // set up the logger with the RTC firing an interrupt ever 5 seconds
-  sunshine.initialise(5);
+  sunshine.initialise();
   // logger will restart if the watchdog timer isn't reset every 8 and a bit seconds
   beamlogger.enable_watchdog();
 
@@ -65,10 +65,6 @@ void loop() {
   sunshine.power_down_sd();
 
   // sleep until it is time to take another light level reading
-  for(int i = 0; i<cycles_per_read; i++){
-    sunshine.feed_watchdog();
-    sunshine.go_to_sleep_until_RTC_wake();
-    sunshine.flash(1);     // let the world know the logger is working
-  }
+  sunshine.wakeOnSecondMultiple(60);
 
 }
