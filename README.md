@@ -165,6 +165,12 @@ See /examples for various arduino sketches.  This section elaborates on selected
 This project uses a [maxbotix ultrasonic distance sensor](https://maxbotix.com/products/mb7388) to measure distance to the water surface of a stream.  To reduce power consumption, power is cut to the module between reads.  To reduce noise (insects, rain), each read cycle collects 10 distance measurements at a rate of 2 Hz, the highest and lowest are discarded, and the rest averaged.  Because the sensor uses UART and must be positioned some distance (approx 1m) from the logger box, some measures are taken to ensure reliable communication over a shielded cable.  See /examples/stream_stage/stream_stage.ino for code.
 
 ![stream_stage sensor end schematic](https://github.com/mbmorrissey/cadalogger/blob/main/images/stream_stage_sensor_end_schematic.png?raw=true)
+*Schematic for sensor-end connections for stream_stage*
+
+On the maxbotix distance sensor, the 3.3V power supply is pin 6 and ground is pin 7.  The sensor transmits TTL/UART output on its pin 5.  On the logger end, the sensors Tx output is connected to Rx2, and the power switch is controlled by pin A0.
+
+
+
 
 [further detail in progress]
 
