@@ -117,15 +117,11 @@ void loop()
   {
     Serial.println("Hey, it worked!");
   }
-templogger.feed_watchdog();
+  templogger.feed_watchdog();
 
   modem.sleep();
 
- for(int i = 0; i<710;i++){
-  templogger.feed_watchdog();
-  templogger.go_to_sleep_until_RTC_wake();
-  templogger.flash(1);
- }
+ templogger.wakeOnMinuteMultiple(30);
 
 }
 
