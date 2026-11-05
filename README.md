@@ -160,7 +160,7 @@ void write_time_to_rtc();
 
 See /examples for various arduino sketches.  This section elaborates on selected examples.
 
-### stream_stage
+### Stream stage data logger
 
 This project uses a [maxbotix ultrasonic distance sensor](https://maxbotix.com/products/mb7388) to measure distance to the water surface of a stream.  To reduce power consumption, power is cut to the module between reads.  To reduce noise (insects, rain), each read cycle collects 10 distance measurements at a rate of 2 Hz, the highest and lowest are discarded, and the rest averaged.  Because the sensor uses UART and must be positioned some distance (approx 1m) from the logger box, some measures are taken to ensure reliable communication over a shielded cable.  See /examples/stream_stage/stream_stage.ino for code.
 
@@ -180,9 +180,20 @@ If the logger's duty cycle was adjusted to generate one record every five minute
 
 The logger was deployed on the Kenley Water, near Boarhills, Fife, Scotland.  Six manual measurements of stream depth (taken from a consistent location on an identifiable section of beadrock) were taken between 30 September 2025 and 5 October 2025. These were related to sensor-to-water surface distance measures, averaging data logger records from two minutes prior to two minutes after each manual measurement.  The calibration curve has a slope of -1.054 and an $r^2$ of 0.9986.
 
-![stream_stage calibration](https://github.com/mbmorrissey/cadalogger/blob/main/images/stream_stage_calibration.png?raw=true|width=10)
+![stream_stage calibration](https://github.com/mbmorrissey/cadalogger/blob/main/images/stream_stage_calibration.png?raw=true|width=6)
 *Calibration for stream_stage logger*
 
 
 ![stream_stage example data](https://github.com/mbmorrissey/cadalogger/blob/main/images/StreamStage.jpeg?raw=true|width=10)
 *Calibration for stream_stage logger*
+
+
+### Satellite data transmission
+
+While the cadalogger's main purpose is to provide inexpensive, high-quality, open source core data logging functionality (i.e., interface with sensors, good time keeping, local data storage, and ultra low-power sleep), the loggers can interface with arbitrary peripherals, including, for example different kinds of modems.  This example demonstrates efficient use of a RockBlock9603 Iridium satellite modem for data transmission, in addition to data storage. 
+
+
+
+
+
+
