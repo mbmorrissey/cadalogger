@@ -181,17 +181,21 @@ If the logger's duty cycle was adjusted to generate one record every five minute
 The logger was deployed on the Kenley Water, near Boarhills, Fife, Scotland.  Six manual measurements of stream depth (taken from a consistent location on an identifiable section of beadrock) were taken between 30 September 2025 and 5 October 2025. These were related to sensor-to-water surface distance measures, averaging data logger records from two minutes prior to two minutes after each manual measurement.  The calibration curve has a slope of -1.054 and an $r^2$ of 0.9986.
 
 ![stream_stage calibration](https://github.com/mbmorrissey/cadalogger/blob/main/images/stream_stage_calibration.png?raw=true|width=6)
-*Calibration for stream_stage logger*
+*calibration for stream_stage logger*
 
 
 ![stream_stage example data](https://github.com/mbmorrissey/cadalogger/blob/main/images/StreamStage.jpeg?raw=true|width=10)
-*Calibration for stream_stage logger*
+*example data for stream_stage logger*
 
 
 ### Satellite data transmission
 
 While the cadalogger's main purpose is to provide inexpensive, high-quality, open source core data logging functionality (i.e., interface with sensors, good time keeping, local data storage, and ultra low-power sleep), the loggers can interface with arbitrary peripherals, including, for example different kinds of modems.  This example demonstrates efficient use of a RockBlock9603 Iridium satellite modem for data transmission, in addition to data storage. 
 
+
+
+![power profile of the cadalogger project demonstrating the transmission of temperature measurements using a RockBlock9603 Iridium satellite modem.](https://github.com/mbmorrissey/cadalogger/blob/main/images/IridiumPowerProfile.jpeg?raw=true|width=10)
+*power profile for cadalogger with Iridium satellite transmissions*
 
 
 
