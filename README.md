@@ -197,7 +197,23 @@ While the cadalogger's main purpose is to provide inexpensive, high-quality, ope
 ![power profile of the cadalogger project demonstrating the transmission of temperature measurements using a RockBlock9603 Iridium satellite modem.](https://github.com/mbmorrissey/cadalogger/blob/main/images/IridiumPowerProfile.jpeg?raw=true|width=10)
 *power profile for cadalogger with Iridium satellite transmissions*
 
+*example power budget*
+- each transmission costs about 7 As (amp-seconds a mean of 207 mA for 34 seconds)
+- each wake to read from the DS18b20 temperature sensor, and to write data to the uSD card costs about 12 mAs (mean of 6 mA for about 2s)
+- if the logger reads temperature (and stores it locally) every hour, and transmits accumulated data every 4 hours, it will be asleep (at about 134 uA) 99.7% of the time
+- this duty cycle of sensor reading and modem use gives an overall mean current consumption of 0.63 mA
+- this example project uses a 3x D cell series battery pack.  D cells have substantial capacity (the pack has about 15,000 mAh capacity), but also they can provide the current needed to charge the modem's super capacitors, even at low temperature).
+- to be conservative, I assume 50% usable battery pack capacity (e.g., risk of failure to provide adequate on a very cold night by a part discharged battery pack)
+- longevity might reasonable be: 15,000 mAh * 50% / 0.63 mA = 11962 hours of run time or 498 days
 
-
+*controlling monetary cost*
+- this is a short test, so the Iridium line rental (£12/month) and data transmission costs are not a large issue, however, in the long-run, they could add up!
+- this project (see code in /examples/iridium/) measures temperature every hour, but transmits accumulated data only every 4 hours
+- each data transmission costs one credit (cost per credit depends on scale, see below) for up to 50 bytes of payload data
+- timestamps are scaled to 144 10-mintute intervals per day (to take only 1 byte) per timestamp
+- temperature is scaled to a number between 0 and 200 (fits in 1 byte) representing temperatures between -50 and +50 degrees C, in half degree precision
+- note that this scheme represents extremely tight packaging of data -- lots more data could be transmitted within 50 bytes, either by similarly tightly packing each byte, or transmitting more variables, more precision, or more accumulated reads
+- each transmission is attempted twice, and contains duplicate information (time stamps and data from previous 4 hours and the 4 hours before that, whereby each data has four transmission attempts) to give maximum chance of transmission (n.b., all transmissions during the test - data in the figure - were successful on the first attempt).
+- in this scheme, the monetary budget for a year would be line rental (12 months at £12/month = £144) and £200-400 for transmission credits, depending on the bundle size purchased
 
 
