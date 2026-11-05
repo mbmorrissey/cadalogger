@@ -190,12 +190,14 @@ The logger was deployed on the Kenley Water, near Boarhills, Fife, Scotland.  Si
 
 ### Satellite data transmission
 
-While the cadalogger's main purpose is to provide inexpensive, high-quality, open source core data logging functionality (i.e., interface with sensors, good time keeping, local data storage, and ultra low-power sleep), the loggers can interface with arbitrary peripherals, including, for example different kinds of modems.  This example demonstrates efficient use of a RockBlock9603 Iridium satellite modem for data transmission, in addition to data storage. 
+While the cadalogger's main purpose is to provide inexpensive, high-quality, open source core data logging functionality (i.e., interface with sensors, good time keeping, local data storage, and ultra low-power sleep), the loggers can interface with arbitrary peripherals, including, for example different kinds of modems.  This example demonstrates efficient use of a [RockBlock9603 Iridium satellite modem]([https://thepihut.com/products/sparkfun-ftdi-basic-breakout-3-3v](https://www.groundcontrol.com/product/rockblock-9603-compact-plug-and-play-satellite-transmitter/)) (hardware cost, approx £300; see ongoing costs below) for data transmission, in addition to local data storage. 
 
 
 
 ![power profile of the cadalogger project demonstrating the transmission of temperature measurements using a RockBlock9603 Iridium satellite modem.](https://github.com/mbmorrissey/cadalogger/blob/main/images/IridiumPowerProfile.jpeg?raw=true|width=10)
 *power profile for cadalogger with Iridium satellite transmissions*
+
+
 
 *example power budget*
 - each transmission costs about 7 As (amp-seconds a mean of 207 mA for 34 seconds)
@@ -214,6 +216,6 @@ While the cadalogger's main purpose is to provide inexpensive, high-quality, ope
 - temperature is scaled to a number between 0 and 200 (fits in 1 byte) representing temperatures between -50 and +50 degrees C, in half degree precision
 - note that this scheme represents extremely tight packaging of data -- lots more data could be transmitted within 50 bytes, either by similarly tightly packing each byte, or transmitting more variables, more precision, or more accumulated reads
 - each transmission is attempted twice, and contains duplicate information (time stamps and data from previous 4 hours and the 4 hours before that, whereby each data has four transmission attempts) to give maximum chance of transmission (n.b., all transmissions during the test - data in the figure - were successful on the first attempt).
-- in this scheme, the monetary budget for a year would be line rental (12 months at £12/month = £144) and £200-400 for transmission credits, depending on the bundle size purchased
+- in this scheme, the monetary budget for a year would be line rental (12 months at £12/month = £144) and £200-400 for transmission credits (6 sub-50 byte transmissions per day = 6 credits per day = 2190 credits per year), depending on the bundle size purchased
 
 
