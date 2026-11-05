@@ -198,6 +198,11 @@ While the cadalogger's main purpose is to provide inexpensive, high-quality, ope
 *power profile for cadalogger with Iridium satellite transmissions*
 
 
+![example iridium satellite data transmission](https://github.com/mbmorrissey/cadalogger/blob/main/images/IridiumTransmissionExample.jpeg?raw=true|width=10)
+
+*Example of data transmission with the Iridium satellite modem controlled by a cadalogger module and optimised for efficient power consumption.*
+
+
 
 *example power budget*
 - each transmission costs about 7 As (amp-seconds a mean of 207 mA for 34 seconds)
