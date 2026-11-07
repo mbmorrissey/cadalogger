@@ -196,7 +196,7 @@ The logger was deployed on the Kenley Water, near Boarhills, Fife, Scotland.  Si
 <table>
   <tr>
     <td width="500">
-      <img src="[https://github.com/mbmorrissey/cadalogger/blob/main/images/stream_stage_power_profile.png](https://github.com/mbmorrissey/cadalogger/blob/main/images/stream_stage_calibration.png)" alt="stream stage logger calibration">
+      <img src="https://github.com/mbmorrissey/cadalogger/blob/main/images/stream_stage_calibration.png" alt="stream stage logger calibration">
     </td>
   </tr>
 </table>
