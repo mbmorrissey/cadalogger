@@ -169,6 +169,14 @@ This project uses a [maxbotix ultrasonic distance sensor](https://maxbotix.com/p
 
 On the maxbotix distance sensor, the 3.3V power supply is pin 6 and ground is pin 7.  The sensor transmits TTL/UART output on its pin 5.  On the logger end, the sensors Tx output is connected to Rx2, and the power switch is controlled by pin A0.
 
+<table>
+  <tr>
+    <td width="500">
+      <img src="[your-image.png](https://github.com/mbmorrissey/cadalogger/blob/main/images/stream_stage_power_profile.png)" alt="Contained Image">
+    </td>
+  </tr>
+</table>
+
 ![stream_stage_power_profile](https://github.com/mbmorrissey/cadalogger/blob/main/images/stream_stage_power_profile.png?raw=true)
 *Power profile for stream_stage logger*
 
@@ -187,6 +195,9 @@ The logger was deployed on the Kenley Water, near Boarhills, Fife, Scotland.  Si
 ![stream_stage example data](https://github.com/mbmorrissey/cadalogger/blob/main/images/StreamStage.jpeg?raw=true|width=10)
 *example data for stream_stage logger*
 
+*Thoughts about this stream stage logger project*
+- this installation washed away in a big flood in December 2025 (-100 pts for fieldcraft)
+- future test to include temperature, and will use a pressure-based in-stream logger (with a barometric pressure sensor to correct for changing atmospheric pressure)
 
 ### Satellite data transmission
 
@@ -223,4 +234,8 @@ While the cadalogger's main purpose is to provide inexpensive, high-quality, ope
 - each transmission is attempted twice, and contains duplicate information (time stamps and data from previous 4 hours and the 4 hours before that, whereby each data has four transmission attempts) to give maximum chance of transmission (n.b., all transmissions during the test - data in the figure - were successful on the first attempt).
 - in this scheme, the monetary budget for a year would be line rental (12 months at £12/month = £144) and £200-400 for transmission credits (6 sub-50 byte transmissions per day = 6 credits per day = 2190 credits per year), depending on the bundle size purchased
 
+*Thoughts about this satellite transmission example*
+- This project sleeps the modem by completely cutting power.  The system has a more subtle 'enable' pin, but it was hard to get it to sleep with that pin - it has odd voltage requirements.  It is worth another try in the future.
+- I was unnecessarily stingy, packing each timestamp and datum into a single byte -- that was more an exercise in 'how low can you go' than intended to be practical!
+- RockBlock has a [new modem](https://www.groundcontrol.com/product/rockblock-9704/) that uses less power and is worth looking into; however, minimum input voltage requirements suggest it may not be as able to use the full capacity of a nominal 4.5V battery pack
 
