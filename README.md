@@ -172,7 +172,7 @@ On the maxbotix distance sensor, the 3.3V power supply is pin 6 and ground is pi
 <table>
   <tr>
     <td width="500">
-      <img src="[https://github.com/mbmorrissey/cadalogger/blob/main/images/stream_stage_power_profile.png]" alt="Contained Image">
+      <img src="https://github.com/mbmorrissey/cadalogger/blob/main/images/stream_stage_power_profile.png" alt="Contained Image">
     </td>
   </tr>
 </table>
