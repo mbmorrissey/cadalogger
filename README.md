@@ -167,7 +167,7 @@ This project uses a [maxbotix ultrasonic distance sensor](https://maxbotix.com/p
 <table>
   <tr>
     <td width="500">
-      <img src="[https://github.com/mbmorrissey/cadalogger/blob/main/images/stream_stage_power_profile.png](https://github.com/mbmorrissey/cadalogger/blob/main/images/stream_stage_sensor_end_schematic.png)" alt="Schematic for the stream stage monitor">
+      <img src="https://github.com/mbmorrissey/cadalogger/blob/main/images/stream_stage_sensor_end_schematic.png" alt="Schematic for the stream stage monitor">
     </td>
   </tr>
 </table>
