@@ -166,7 +166,7 @@ This project uses a [maxbotix ultrasonic distance sensor](https://maxbotix.com/p
 
 <table>
   <tr>
-    <td width="500">
+    <td width="700">
       <img src="https://github.com/mbmorrissey/cadalogger/blob/main/images/stream_stage_sensor_end_schematic.png" alt="Schematic for the stream stage monitor">
     </td>
   </tr>
@@ -193,7 +193,13 @@ If the logger's duty cycle was adjusted to generate one record every five minute
 
 The logger was deployed on the Kenley Water, near Boarhills, Fife, Scotland.  Six manual measurements of stream depth (taken from a consistent location on an identifiable section of beadrock) were taken between 30 September 2025 and 5 October 2025. These were related to sensor-to-water surface distance measures, averaging data logger records from two minutes prior to two minutes after each manual measurement.  The calibration curve has a slope of -1.054 and an $r^2$ of 0.9986.
 
-![stream_stage calibration](https://github.com/mbmorrissey/cadalogger/blob/main/images/stream_stage_calibration.png?raw=true|width=6)
+<table>
+  <tr>
+    <td width="500">
+      <img src="[https://github.com/mbmorrissey/cadalogger/blob/main/images/stream_stage_power_profile.png](https://github.com/mbmorrissey/cadalogger/blob/main/images/stream_stage_calibration.png)" alt="stream stage logger calibration">
+    </td>
+  </tr>
+</table>
 *calibration for stream_stage logger*
 
 
